@@ -1,7 +1,7 @@
 ### ER図
 
 （ER図のスクリーンショットを貼り付けてください）
-[![Image from Gyazo](https://i.gyazo.com/6d7ccfe3fe0842adabcbdf3a417109b2.png)](https://gyazo.com/6d7ccfe3fe0842adabcbdf3a417109b2)
+[![Image from Gyazo](https://i.gyazo.com/cc55b8d6548606281461a18455d5e9af.png)](https://gyazo.com/cc55b8d6548606281461a18455d5e9af)
 
 ### 本サービスの概要（700文字以内）
 
@@ -64,11 +64,15 @@
 
 - id : ブランドを一意に識別する主キー
 - name : ブランド名 (PILOT)
+- created_at : レコード作成日時
+- updated_at : レコード更新日時
 
 ### categoriesテーブル
 
 - id : カテゴリを一意に識別する主キー
 - name : カテゴリ名 (シャーペン)
+- created_at : レコード作成日時
+- updated_at : レコード更新日時
 
 ### itemsテーブル
 
