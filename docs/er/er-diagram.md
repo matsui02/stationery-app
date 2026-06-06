@@ -1,7 +1,7 @@
 ### ER図
 
 （ER図のスクリーンショットを貼り付けてください）
-[![Image from Gyazo](https://i.gyazo.com/cc55b8d6548606281461a18455d5e9af.png)](https://gyazo.com/cc55b8d6548606281461a18455d5e9af)
+[![Image from Gyazo](https://i.gyazo.com/c17bf9b866cc1c65af03b1f03bb68e9e.png)](https://gyazo.com/c17bf9b866cc1c65af03b1f03bb68e9e)
 
 ### 本サービスの概要（700文字以内）
 
@@ -103,7 +103,7 @@
 - item_id : 投稿で紹介する商品を識別する外部キー
 - title : お気に入りの1本投稿のタイトル
 - image : お気に入りの1本の画像(画像ファイルはActive Storageを利用して管理)
-- favorite_point : 商品のお気に入りポイントや魅力
+- description : 商品のお気に入りポイントや魅力
 - created_at : レコード作成日時
 - updated_at : レコード更新日時
 
