@@ -1,0 +1,21 @@
+<section class="relative">
+  <%= image_tag "top/top-hero.png",
+      class: "w-full h-[600px] object-cover",
+      alt: "Pencaseのトップ画像" %>
+  <div class="absolute inset-0 bg-black/20"></div>
+  <div class="absolute inset-0 flex items-center">
+    <div class="px-[50px] text-white">
+      <h2 class="font-noto-serif text-4xl font-bold leading-relaxed">
+        自分の筆箱を投稿して<br>
+        お気に入りの文房具を見つけよう
+      </h2>
+      <div class="mt-10 flex gap-4">
+        <%= link_to "新規登録", "#",
+      class: "w-40 rounded-sm bg-black py-3 text-center text-white transition-colors duration-200 hover:bg-gray-800 cursor-pointer" %>
+
+        <%= link_to "ログイン", "#",
+      class: "w-40 rounded-sm border border-gray-300 bg-white py-3 text-center text-black transition-colors duration-200 hover:bg-gray-100 cursor-pointer" %>
+      </div>
+    </div>
+  </div>
+</section>
