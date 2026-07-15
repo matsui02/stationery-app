@@ -1,1 +1,7 @@
-<%= render "top/hero_section", show_auth_buttons: false, hero_height: "h-[400px]" %>
+<%= render "top/hero_section", show_auth_buttons: false, hero_height: "h-[250px]" %>
+<%= render "shared/tabs",
+    tabs: [
+      { label: "新規登録", class: "flex-1 text-center" },
+      { label: "ログイン", class: "flex-1 text-center"}
+    ],
+    wrapper_class: "max-w-md mx-auto mt-8" %>
