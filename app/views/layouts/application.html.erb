@@ -19,6 +19,11 @@
   <link rel="icon" href="/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/icon.png">
 
+  <%# Toastify CSS %>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
   <%# Includes all stylesheet files in app/assets/stylesheets %>
   <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
   <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
@@ -26,6 +31,7 @@
 
 <body>
   <%= render "shared/header" %>
+  <%= render "shared/flash" %>
   <%= yield %>
 </body>
 
