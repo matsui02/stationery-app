@@ -9,7 +9,7 @@
     wrapper_class: "w-full max-w-sm mx-auto mt-3" %>
 
   <!-- 新規登録フォーム -->
-  <div data-tabs-target="panel" class="tab-content w-full max-w-sm mx-auto mt-6" id="tab-register">
+  <div data-tabs-target="panel" class="tab-content w-full max-w-sm mx-auto mt-6 <%= 'hidden' if @login_resource.errors.any? %>" id="tab-register">
     <%= form_with model: @register_resource, url: user_registration_path, method: :post, html: { novalidate: true } do |f| %>
     <div>
       <%= f.label :name, "ユーザー名 (必須)",
@@ -116,8 +116,7 @@
     <% end %>
   </div>
   <!-- ログインフォーム -->
-  <div data-tabs-target="panel" class="tab-content w-full max-w-sm mx-auto mt-6 hidden" id="tab-login">
-
+  <div data-tabs-target="panel" class="tab-content w-full max-w-sm mx-auto mt-6 <%= 'hidden' unless @login_resource.errors.any? %>" id="tab-login">
     <% if @login_resource.errors.any? %>
     <div class="mb-5 border border-red-200 bg-red-50 rounded px-4 py-3">
       <% @login_resource.errors.full_messages.each do |msg| %>
