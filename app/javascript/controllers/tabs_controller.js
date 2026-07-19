@@ -1,36 +1,29 @@
-import { Controller } from '@hotwired/stimulus'
+import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ['tab', 'panel']
+  static targets = ["tab", "panel"]
+  static values  = { default: { type: Number, default: 0 } }
 
   connect() {
-    const params = new URLSearchParams(window.location.search)
-    const tab = params.get('tab')
-
-    if (tab === 'login') {
-      this.showTab(1)
-    } else {
-      this.showTab(0)
-    }
+    this.showTab(this.defaultValue)
   }
 
   switch(event) {
-    this.showTab(Number(event.currentTarget.dataset.index))
+    const index = this.tabTargets.indexOf(event.currentTarget)
+    this.showTab(index)
   }
 
   showTab(index) {
     this.tabTargets.forEach((tab, i) => {
-      if (i === index) {
-        tab.classList.add('border-black', 'text-black')
-        tab.classList.remove('border-transparent', 'text-gray-500')
-      } else {
-        tab.classList.remove('border-black', 'text-black')
-        tab.classList.add('border-transparent', 'text-gray-500')
-      }
+      // border の切り替え
+      tab.classList.toggle("border-black",       i === index)
+      tab.classList.toggle("border-transparent", i !== index)
+      // 文字色の切り替え
+      tab.classList.toggle("text-black",   i === index)
+      tab.classList.toggle("text-gray-500", i !== index)
     })
-
     this.panelTargets.forEach((panel, i) => {
-      panel.classList.toggle('hidden', i !== index)
+      panel.classList.toggle("hidden", i !== index)
     })
   }
 }
