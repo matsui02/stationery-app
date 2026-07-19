@@ -1,9 +1,7 @@
-<div data-controller="tabs">
-  <div class="flex border-b border-gray-300 <%= wrapper_class %>">
-    <% tabs.each_with_index do |tab, index| %>
-    <button data-tabs-target="tab" data-index="<%= index %>" data-action="click->tabs#switch" class="<%= index.zero? ? 'border-black' : 'border-transparent text-gray-500' %> px-6 py-4 border-b-2 <%= tab[:class] %>">
-      <%= tab[:label] %>
-    </button>
-    <% end %>
-  </div>
+<div class="flex border-b border-gray-300 <%= wrapper_class %>">
+  <% tabs.each_with_index do |tab, index| %>
+  <button data-tabs-target="tab" data-index="<%= index %>" data-action="click->tabs#switch" class="<%= index.zero? ? 'border-black' : 'border-transparent text-gray-500' %> px-6 py-4 border-b-2 <%= tab[:class] %>">
+    <%= tab[:label] %>
+  </button>
+  <% end %>
 </div>

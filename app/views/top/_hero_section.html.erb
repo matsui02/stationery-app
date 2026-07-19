@@ -11,13 +11,13 @@
       </h2>
       <% if local_assigns[:show_auth_buttons] %>
       <div class="mt-10 flex gap-4">
-        <%= link_to "新規登録", "#",
+        <%= link_to "新規登録", accounts_path(tab: "signup"),
             class: "w-40 rounded-sm bg-white py-3 text-center text-[18px]
                 text-black tracking-widest border border-white
                 transition-colors duration-200 hover:bg-gray-100
                 cursor-pointer" %>
 
-        <%= link_to "ログイン", "#",
+        <%= link_to "ログイン", accounts_path(tab: "login"),
             class: "w-40 rounded-sm border border-gray-600 bg-black
                 py-3 text-center text-[18px] text-white tracking-widest
                 transition-colors duration-200 hover:bg-gray-800
