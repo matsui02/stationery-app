@@ -3,21 +3,22 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = ["input", "message"]
 
-  connect() {
-    this.update()
+  update() {
+    const value  = this.inputTarget.value
+    const length = value.length
+    const min    = 8
+
+    if (length === 0) {
+      this.setMessage(`0 / ${min}文字`, "#9ca3af")
+    } else if (length < min) {
+      this.setMessage(`${length} / ${min}文字`, "#ef4444")
+    } else {
+      this.setMessage(`✓ ${min}文字以上`, "#16a34a")
+    }
   }
 
-  update() {
-    const length = this.inputTarget.value.length
-
-    if (length >= 8) {
-      this.messageTarget.textContent = "✓ 8文字以上"
-      this.messageTarget.classList.remove("text-gray-500", "text-red-500")
-      this.messageTarget.classList.add("text-green-600")
-    } else {
-      this.messageTarget.textContent = `${length} / 8文字`
-      this.messageTarget.classList.remove("text-green-600")
-      this.messageTarget.classList.add("text-gray-500")
-    }
+  setMessage(text, color) {
+    this.messageTarget.textContent = text
+    this.messageTarget.style.color = color
   }
 }

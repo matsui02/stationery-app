@@ -1,6 +1,6 @@
 <%= render "top/hero_section", show_auth_buttons: false, hero_height: "h-[250px]" %>
 
-<div data-controller="tabs" data-tabs-default-value="<%= flash[:alert].present? ? 1 : 0 %>">
+<div data-controller="tabs">
   <%= render "shared/tabs",
     tabs: [
       { label: "新規登録", class: "flex-1 text-center" },
@@ -9,110 +9,130 @@
     wrapper_class: "w-full max-w-sm mx-auto mt-3" %>
 
   <!-- 新規登録フォーム -->
+  <!-- 新規登録フォーム -->
   <div data-tabs-target="panel" class="tab-content w-full max-w-sm mx-auto mt-6" id="tab-register">
-    <%= form_with model: @register_resource, url: user_registration_path, method: :post, html: { novalidate: true } do |f| %>
-    <div>
-      <%= f.label :name, "ユーザー名 (必須)",
-    class: "block text-xs font-medium text-gray-500 tracking-wide mb-2" %>
 
+    <%# エラーをローカル変数に格納しておく %>
+    <% register_errors = flash[:register_errors]&.transform_keys(&:to_sym) || {} %>
+
+    <%= form_with model: @register_resource, url: user_registration_path,
+        method: :post, html: { novalidate: true } do |f| %>
+
+    <%# ユーザー名 %>
+    <div class="mb-4">
+      <%= f.label :name, "ユーザー名 (必須)",
+            class: "block text-xs font-medium text-gray-500 tracking-wide mb-2" %>
       <%= f.text_field :name,
-    placeholder: "例：山田 太郎",
-    autocomplete: "name",
-    class: "w-full h-11 border border-gray-200 rounded-md
-            px-4 text-sm text-gray-900
-            placeholder-gray-300
-            bg-white
-            transition-all duration-150
-            focus:border-gray-400 focus:ring-2 focus:ring-gray-100
-            focus:outline-none" %>
-      <% if @register_resource.errors[:name].any? %>
-      <p class="text-xs text-red-600 mt-1">
-        ユーザー名<%= @register_resource.errors[:name].first %>
-      </p>
+            placeholder: "例：山田 太郎",
+            autocomplete: "name",
+            class: "w-full h-11 border rounded-md px-4 text-sm
+                    text-gray-900 placeholder-gray-300 bg-white
+                    transition-all duration-150 focus:outline-none
+                    focus:ring-2 focus:ring-gray-100
+                    #{register_errors[:name].present? ?
+                      'border-red-400 focus:border-red-400' :
+                      'border-gray-200 focus:border-gray-400'}" %>
+      <% register_errors[:name]&.each do |msg| %>
+      <p class="text-xs text-red-600 mt-1">・ユーザー名<%= msg %></p>
       <% end %>
     </div>
-    <div>
+
+    <%# メールアドレス %>
+    <div class="mb-4">
       <%= f.label :email, "メールアドレス (必須)",
-    class: "block text-xs font-medium text-gray-500 tracking-wide mt-4 mb-2" %>
+            class: "block text-xs font-medium text-gray-500 tracking-wide mb-2" %>
       <%= f.email_field :email,
-    placeholder: "例：test@example.com",
-    autocomplete: "email",
-    class: "w-full h-11 border border-gray-200 rounded-md
-    px-4 text-sm text-gray-900
-    placeholder-gray-300
-    bg-white
-    transition-all duration-150
-    focus:border-gray-400 focus:ring-2 focus:ring-gray-100
-    focus:outline-none" %>
-      <% if @register_resource.errors[:email].any? %>
-      <p class="text-xs text-red-600 mt-1">
-        メールアドレス<%= @register_resource.errors[:email].first %>
-      </p>
+            placeholder: "例：test@example.com",
+            autocomplete: "email",
+            class: "w-full h-11 border rounded-md px-4 text-sm
+                    text-gray-900 placeholder-gray-300 bg-white
+                    transition-all duration-150 focus:outline-none
+                    focus:ring-2 focus:ring-gray-100
+                    #{register_errors[:email].present? ?
+                      'border-red-400 focus:border-red-400' :
+                      'border-gray-200 focus:border-gray-400'}" %>
+      <% register_errors[:email]&.each do |msg| %>
+      <p class="text-xs text-red-600 mt-1">・メールアドレス<%= msg %></p>
       <% end %>
     </div>
+
+    <%# パスワード %>
     <div data-controller="password-confirmation">
       <div data-controller="password-strength">
         <div data-controller="password-visibility">
-          <%= f.label :password, "パスワード (必須)",
-      class: "block text-xs font-medium text-gray-500 tracking-wide mt-4 mb-2" %>
-          <div class="relative">
-            <%= f.password_field :password,
-        data: {
-          password_visibility_target: "input",
-          password_strength_target: "input",
-          password_confirmation_target: "password",
-          action: "input->password-strength#update"
-        },
-        autocomplete: "new-password",
-        placeholder: "8文字以上",
-        class: "w-full h-11 border border-gray-200 rounded-md
-        px-4 pr-12 text-sm text-gray-900
-        placeholder-gray-300
-        bg-white
-        transition-all duration-150
-        focus:border-gray-400 focus:ring-2 focus:ring-gray-100
-        focus:outline-none" %>
-            <button type="button" data-action="password-visibility#toggle" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
-              <svg data-password-visibility-target="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
-                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-              </svg>
-            </button>
+          <div class="mb-4">
+            <%= f.label :password, "パスワード (必須)",
+                  class: "block text-xs font-medium text-gray-500 tracking-wide mb-2" %>
+            <div class="relative">
+              <%= f.password_field :password,
+                    data: {
+                      password_visibility_target: "input",
+                      password_strength_target:   "input",
+                      password_confirmation_target: "password",
+                      action: "input->password-strength#update"
+                    },
+                    autocomplete: "new-password",
+                    placeholder: "8文字以上",
+                    class: "w-full h-11 border rounded-md px-4 pr-12
+                            text-sm text-gray-900 placeholder-gray-300
+                            bg-white transition-all duration-150
+                            focus:outline-none focus:ring-2
+                            focus:ring-gray-100
+                            #{register_errors[:password].present? ?
+                              'border-red-400 focus:border-red-400' :
+                              'border-gray-200 focus:border-gray-400'}" %>
+              <button type="button" data-action="password-visibility#toggle" class="absolute right-3 top-1/2 -translate-y-1/2
+                             text-gray-400 hover:text-gray-600">
+                <svg data-password-visibility-target="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423
+                           7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007
+                           9.963 7.178.07.207.07.431 0 .639C20.577
+                           16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007
+                           -9.963-7.178Z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                </svg>
+              </button>
+            </div>
+            <p data-password-strength-target="message" class="text-xs text-gray-500 mt-1">
+              0 / 8文字
+            </p>
+            <% register_errors[:password]&.each do |msg| %>
+            <p class="text-xs text-red-600 mt-1">・パスワード<%= msg %></p>
+            <% end %>
           </div>
-          <p data-password-strength-target="message" class="text-xs text-gray-500 mt-1">
-            0 / 8文字
-          </p>
         </div>
-        <% if @register_resource.errors[:password].any? %>
-        <p class="text-xs text-red-600 mt-1">
-          <%= @register_resource.errors.full_messages_for(:password).first %>
-        </p>
+      </div>
+
+      <%# パスワード確認 %>
+      <div class="mb-4">
+        <%= f.label :password_confirmation, "パスワード確認 (必須)",
+              class: "block text-xs font-medium text-gray-500 tracking-wide mb-2" %>
+        <%= f.password_field :password_confirmation,
+              data: {
+                password_confirmation_target: "confirmation",
+                action: "input->password-confirmation#check"
+              },
+              autocomplete: "new-password",
+              placeholder: "もう一度入力",
+              class: "w-full h-11 border rounded-md px-4 text-sm
+                      text-gray-900 placeholder-gray-300 bg-white
+                      transition-all duration-150 focus:outline-none
+                      focus:ring-2 focus:ring-gray-100
+                      #{register_errors[:password_confirmation].present? ?
+                        'border-red-400 focus:border-red-400' :
+                        'border-gray-200 focus:border-gray-400'}" %>
+        <p data-password-confirmation-target="message" class="text-xs mt-1"></p>
+        <% register_errors[:password_confirmation]&.each do |msg| %>
+        <p class="text-xs text-red-600 mt-1">・パスワード確認<%= msg %></p>
         <% end %>
       </div>
-      <%= f.label :password_confirmation, "パスワード確認 (必須)",
-    class: "block text-xs font-medium text-gray-500 tracking-wide mt-4 mb-2" %>
-      <%= f.password_field :password_confirmation,
-    data: {
-      password_confirmation_target: "confirmation",
-      action: "input->password-confirmation#check"
-    },
-    autocomplete: "new-password",
-    placeholder: "もう一度入力",
-    class: "w-full h-11 border border-gray-200 rounded-md
-    px-4 text-sm text-gray-900
-    placeholder-gray-300
-    bg-white
-    transition-all duration-150
-    focus:border-gray-400 focus:ring-2 focus:ring-gray-100
-    focus:outline-none" %>
-      <p data-password-confirmation-target="message" class="text-xs mt-1">
-      </p>
     </div>
+
     <%= f.submit "登録",
-  class: "mt-5 w-full h-11 bg-black text-white text-sm
-  tracking-widest rounded-sm cursor-pointer
-  transition-colors duration-200
-  hover:bg-gray-800" %>
+          class: "mt-5 w-full h-11 bg-black text-white text-sm
+                  tracking-widest rounded-sm cursor-pointer
+                  transition-colors duration-200 hover:bg-gray-800" %>
+
     <% end %>
   </div>
 
