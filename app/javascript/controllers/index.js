@@ -1,4 +1,3 @@
-// app/javascript/controllers/index.js
 import { application } from "./application"
 
 import HelloController from "./hello_controller"
@@ -18,3 +17,15 @@ application.register("tabs", TabsController)
 
 import FlashController from "./flash_controller"
 application.register("flash", FlashController)
+
+import ItemSearchController from "./item_search_controller"
+application.register("item-search", ItemSearchController)
+
+import PencilCaseFormController from "./pencil_case_form_controller"
+application.register("pencil-case-form", PencilCaseFormController)
+
+import CharacterCountController from "./character_count_controller"
+application.register("character-count", CharacterCountController)
+
+import DropdownController from "./dropdown_controller"
+application.register("dropdown", DropdownController)
