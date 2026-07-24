@@ -1,18 +1,18 @@
-<%# app/views/shared/_section_header.html.erb %>
-<div class="flex items-center justify-between mb-6">
+<div class="flex items-end justify-between mb-8">
   <div class="flex items-baseline gap-3">
-    <h2 class="font-serif text-lg font-semibold tracking-wide">
+    <h2 class="font-serif text-3xl font-medium tracking-wide text-gray-900">
       <%= title %>
     </h2>
-    <small class="text-xs text-gray-400 tracking-widest">
+    <span class="text-sm text-gray-400 tracking-widest">
       / <%= subtitle %>
-    </small>
+    </span>
   </div>
   <% if defined?(link_label) && link_label.present? &&
         defined?(link_path) && link_path.present? %>
   <%= link_to link_label, link_path,
-          class: "text-xs border border-gray-800 px-3 py-1.5
-                  rounded hover:bg-gray-800 hover:text-white
-                  transition-colors duration-150" %>
+        class: "text-xs border border-gray-800
+                px-4 py-2 rounded-full
+                hover:bg-gray-800 hover:text-white
+              transition-colors duration-300" %>
   <% end %>
 </div>

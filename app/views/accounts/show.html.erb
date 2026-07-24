@@ -1,6 +1,6 @@
 <%= render "top/hero_section", show_auth_buttons: false, hero_height: "h-[250px]" %>
 
-<div data-controller="tabs">
+<div data-controller="tabs" data-tabs-active-tab-value="<%= @active_tab %>">
   <%= render "shared/tabs",
     tabs: [
       { label: "新規登録", class: "flex-1 text-center" },
@@ -31,8 +31,12 @@
                     #{register_errors[:name].present? ?
                       'border-red-400 focus:border-red-400' :
                       'border-gray-200 focus:border-gray-400'}" %>
-      <% register_errors[:name]&.each do |msg| %>
-      <p class="text-xs text-red-600 mt-1">・ユーザー名<%= msg %></p>
+      <% if @register_resource.errors[:name].any? %>
+      <% @register_resource.errors[:name].each do |message| %>
+      <p class="text-xs text-red-600 mt-1">
+        ユーザー名<%= message %>
+      </p>
+      <% end %>
       <% end %>
     </div>
 
@@ -50,8 +54,12 @@
                     #{register_errors[:email].present? ?
                       'border-red-400 focus:border-red-400' :
                       'border-gray-200 focus:border-gray-400'}" %>
-      <% register_errors[:email]&.each do |msg| %>
-      <p class="text-xs text-red-600 mt-1">・メールアドレス<%= msg %></p>
+      <% if @register_resource.errors[:email].any? %>
+      <% @register_resource.errors[:email].each do |message| %>
+      <p class="text-xs text-red-600 mt-1">
+        メールアドレス<%= message %>
+      </p>
+      <% end %>
       <% end %>
     </div>
 
@@ -95,8 +103,12 @@
             <p data-password-strength-target="message" class="text-xs text-gray-500 mt-1">
               0 / 8文字
             </p>
-            <% register_errors[:password]&.each do |msg| %>
-            <p class="text-xs text-red-600 mt-1">・パスワード<%= msg %></p>
+            <% if @register_resource.errors[:password].any? %>
+            <% @register_resource.errors[:password].each do |message| %>
+            <p class="text-xs text-red-600 mt-1">
+              パスワード<%= message %>
+            </p>
+            <% end %>
             <% end %>
           </div>
         </div>
@@ -121,9 +133,6 @@
                         'border-red-400 focus:border-red-400' :
                         'border-gray-200 focus:border-gray-400'}" %>
         <p data-password-confirmation-target="message" class="text-xs mt-1"></p>
-        <% register_errors[:password_confirmation]&.each do |msg| %>
-        <p class="text-xs text-red-600 mt-1">・パスワード確認<%= msg %></p>
-        <% end %>
       </div>
     </div>
 
@@ -142,7 +151,6 @@
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="mt-0.5 h-5 w-5 shrink-0 text-red-500">
         <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m0 3.75h.007v.008H12v-.008ZM21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
       </svg>
-
       <div>
         <p class="text-sm font-medium text-red-700">
           ログインできませんでした
