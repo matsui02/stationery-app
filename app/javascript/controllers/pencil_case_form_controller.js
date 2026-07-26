@@ -15,8 +15,5 @@ export default class extends Controller {
 
     const container = document.getElementById("pencil-case-items")
     container.appendChild(wrapper.firstElementChild)
-
-    // 追加した要素にStimulusを適用
-    // （Turboが有効な場合は自動で適用される）
   }
 }

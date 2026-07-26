@@ -1,6 +1,5 @@
 # app/controllers/api/items_controller.rb
 class Api::ItemsController < ApplicationController
-
   def search
     query = params[:q].to_s.strip
     return render json: [] if query.blank?

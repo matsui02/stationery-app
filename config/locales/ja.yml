@@ -1,13 +1,24 @@
 ja:
   date:
-      formats:
-        default: "%Y/%m/%d"
+    formats:
+      default: "%Y/%m/%d"
+
   activerecord:
     attributes:
       user:
         name: "ユーザー名"
         email: "メールアドレス"
         password: "パスワード"
+      pencil_case:
+        image: "画像"
+
+    errors:
+      models:
+        pencil_case:
+          attributes:
+            image:
+              blank: "を選択してください"
+
   errors:
     format: "%{attribute}%{message}"
     messages:
