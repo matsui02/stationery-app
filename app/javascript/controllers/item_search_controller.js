@@ -88,6 +88,14 @@ export default class extends Controller {
       this.itemIdInputTarget.value = el.dataset.itemId
     }
     this.hideSuggestions()
+    this.dispatch("selected")
+      this.brandInputTarget.dispatchEvent(
+      new Event("input", { bubbles: true })
+    )
+
+    this.categorySelectTarget.dispatchEvent(
+      new Event("change", { bubbles: true })
+    )
   }
 
   showCreateForm(event) {

@@ -8,18 +8,29 @@ export default class extends Controller {
   }
 
   connect() {
+    const LOGIN_TAB_INDEX = 1
+    const SIGNUP_TAB_INDEX = 0
+
     const tab = new URLSearchParams(window.location.search).get("tab")
 
     if (this.activeTabValue === "login" || tab === "login") {
-      this.showTab(1)
+      this.showTab(LOGIN_TAB_INDEX)
     } else {
-      this.showTab(0)
+      this.showTab(SIGNUP_TAB_INDEX)
     }
   }
 
   switch(event) {
     const index = this.tabTargets.indexOf(event.currentTarget)
+
     this.showTab(index)
+
+    const tab = index === 0 ? "signup" : "login"
+
+    const url = new URL(window.location)
+    url.searchParams.set("tab", tab)
+
+    history.pushState(null, "", url)
   }
 
   showTab(index) {

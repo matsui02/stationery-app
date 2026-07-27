@@ -29,7 +29,10 @@
     <%= form_with model: @pencil_case,
           url: pencil_cases_path,
           method: :post,
-          html: { novalidate: true } do |f| %>
+          html: {
+            multipart: true,
+            novalidate: true
+          } do |f| %>
 
     <%# タイトル（任意） %>
     <div class="mb-4">
@@ -59,31 +62,52 @@
     </div>
 
     <%# 画像アップロード %>
-    <div class="mb-4">
-      <%= f.label :image, "メイン画像 (必須)",
-              class: "block text-xs font-medium text-gray-500
-                      tracking-wide mb-2" %>
-      <div class="border border-dashed border-gray-300 rounded-md
-                    h-40 flex flex-col items-center justify-center
-                    cursor-pointer hover:border-gray-500
-                    transition-colors duration-150" onclick="document.getElementById('pencil-image').click()">
-        <svg class="w-8 h-8 text-gray-300 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25
-                     2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5
-                     4.5M12 3v13.5" />
-        </svg>
-        <p class="text-xs text-gray-400">クリックして画像を選択</p>
-        <p class="text-xs text-gray-300 mt-1">jpg / png / webp</p>
+    <div class="mb-4" data-controller="image-preview">
+
+      <div class="relative border border-dashed border-gray-300 rounded-md
+              h-40 flex flex-col items-center justify-center
+              cursor-pointer hover:border-gray-500
+              transition-colors duration-150 overflow-hidden" data-action="click->image-preview#open">
+
+
+        <%# プレビュー画像 %>
+        <img data-image-preview-target="preview" class="hidden absolute inset-0 w-full h-full object-cover" />
+
+
+        <%# 初期表示 %>
+        <div data-image-preview-target="placeholder" class="flex flex-col items-center justify-center">
+
+          <svg class="w-8 h-8 text-gray-300 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 16.5v2.25A2.25
+              2.25 0 005.25 21h13.5
+              A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5
+              4.5M12 3v13.5" />
+
+          </svg>
+
+          <p class="text-xs text-gray-400">
+            クリックして画像を選択
+          </p>
+
+          <p class="text-xs text-gray-300 mt-1">
+            jpeg / jpg / png / webp
+          </p>
+
+        </div>
+
       </div>
+
+
       <%= f.file_field :image,
-              id: "pencil-image",
-              accept: "image/*",
-              class: "hidden" %>
-      <% @pencil_case.errors[:image].each do |message| %>
-      <p class="mt-1.5 text-xs text-red-500 tracking-wide">
-        ・画像<%= message %>
-      </p>
-      <% end %>
+      id: "pencil-image",
+      accept: "image/*",
+      class: "hidden",
+      data: {
+        image_preview_target: "input",
+        action: "change->image-preview#preview"
+      } %>
+
     </div>
 
     <%# 収納アイテム %>
@@ -154,15 +178,19 @@
 
     <%# ステータスインジケーター %>
     <div class="col-span-1 flex justify-center">
-      <span data-item-status-target="indicator" class="w-3 h-3 rounded-full border-2 border-gray-300
+      <span data-item-status-target="indicator" class="w-4 h-4 rounded-full border border-gray-300
+                   bg-white flex items-center justify-center
                    transition-all duration-300">
+        <svg data-item-status-target="check" class="hidden w-2.5 h-2.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+        </svg>
       </span>
     </div>
 
-    <%# 商品名 %>
+    <%# 商品名：6列 → 4列に縮小 %>
     <div class="col-span-4 relative">
       <input type="text" data-item-search-target="input" data-item-status-target="input" data-action="input->item-search#search
-                          input->item-status#update" name="pencil_case[pencil_case_items_attributes][NEW_INDEX][item_name]" placeholder="商品名で検索または入力" autocomplete="off" class="w-full h-9 border border-gray-200 rounded px-3
+                          input->item-status#update" name="pencil_case[pencil_case_items_attributes][NEW_INDEX][item_name]" placeholder="商品名で検索または入力" autocomplete="off" class="w-full h-9 border border-gray-200 rounded px-2.5
                     text-xs text-gray-900 placeholder-gray-300
                     focus:border-gray-400 focus:outline-none">
       <div data-item-search-target="suggestions" class="hidden absolute z-20 w-full bg-white border
@@ -172,26 +200,26 @@
       <input type="hidden" data-item-search-target="itemIdInput" name="pencil_case[pencil_case_items_attributes][NEW_INDEX][item_id]">
     </div>
 
-    <%# ブランド %>
+    <%# ブランド：2列 %>
     <div class="col-span-3">
-      <input type="text" data-item-search-target="brandInput" name="pencil_case[pencil_case_items_attributes][NEW_INDEX][brand_name]" placeholder="ブランド" autocomplete="off" class="w-full h-9 border border-gray-200 rounded px-3
+      <input type="text" data-item-search-target="brandInput" data-item-status-target="brandInput" data-action="input->item-status#update" name="pencil_case[pencil_case_items_attributes][NEW_INDEX][brand_name]" placeholder="ブランド" autocomplete="off" class="w-full h-9 border border-gray-200 rounded px-2.5
                     text-xs text-gray-900 placeholder-gray-300
                     focus:border-gray-400 focus:outline-none">
     </div>
 
-    <%# カテゴリ %>
+    <%# カテゴリ：3列 %>
     <div class="col-span-3">
-      <select data-item-search-target="categorySelect" name="pencil_case[pencil_case_items_attributes][NEW_INDEX][category_id]" class="w-full h-9 border border-gray-200 rounded px-2
+      <select data-item-search-target="categorySelect" data-item-status-target="categorySelect" data-action="change->item-status#update" name="pencil_case[pencil_case_items_attributes][NEW_INDEX][category_id]" class="w-full h-9 border border-gray-200 rounded px-2
                      text-xs text-gray-900 bg-white
                      focus:border-gray-400 focus:outline-none">
-        <option value="">カテゴリ</option>
+        <option value="">カテゴリを選択</option>
         <% @categories.each do |cat| %>
         <option value="<%= cat.id %>"><%= cat.name %></option>
         <% end %>
       </select>
     </div>
 
-    <%# 削除ボタン %>
+    <%# 削除ボタン：2列 %>
     <div class="col-span-1 flex justify-center">
       <button type="button" onclick="this.closest('.pencil-case-item').remove()" class="text-gray-300 hover:text-red-400
                      transition-colors duration-150 text-lg leading-none">

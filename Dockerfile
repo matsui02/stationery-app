@@ -11,6 +11,11 @@
 ARG RUBY_VERSION=3.4.8
 FROM docker.io/library/ruby:$RUBY_VERSION-slim AS base
 
+RUN apt-get update && apt-get install -y \
+  build-essential \
+  libvips \
+  && rm -rf /var/lib/apt/lists/*
+
 # Rails app lives here
 WORKDIR /rails
 

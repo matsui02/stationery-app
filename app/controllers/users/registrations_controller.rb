@@ -9,7 +9,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     else
       @register_resource = resource
       @login_resource = User.new
-      @active_tab = "sign_up"
+      @active_tab = "signup"
       render "accounts/show",
             status: :unprocessable_entity
     end

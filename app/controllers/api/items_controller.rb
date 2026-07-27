@@ -14,7 +14,6 @@ class Api::ItemsController < ApplicationController
                     brand_name:    item.brand&.name,
                     category_id:   item.category_id,
                     category_name: item.category&.name,
-                    price:         item.price
                   }
                 end
 
@@ -36,9 +35,7 @@ class Api::ItemsController < ApplicationController
       name:     params[:name],
       brand:    brand,
       category: category
-    ) do |i|
-      i.price = params[:price].presence
-    end
+    )
 
     render json: {
       id:            item.id,
@@ -46,8 +43,8 @@ class Api::ItemsController < ApplicationController
       brand_name:    item.brand&.name,
       category_id:   item.category_id,
       category_name: item.category&.name,
-      price:         item.price
     }
+
   rescue ActiveRecord::RecordInvalid => e
     render json: { error: e.message }, status: :unprocessable_entity
   end

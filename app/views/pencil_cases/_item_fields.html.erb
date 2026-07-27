@@ -1,18 +1,19 @@
-<div class="grid grid-cols-12 gap-2 mb-3 items-center pencil-case-item" data-controller="item-search item-status">
+<div class="grid grid-cols-12 gap-2 mb-3 items-center pencil-case-item" data-controller="item-search item-status" data-action="item-search:selected->item-status#update">
 
-  <%# ステータスインジケーター %>
   <div class="col-span-1 flex justify-center">
-    <span data-item-status-target="indicator" class="w-3 h-3 rounded-full border-1 border-gray-300
-                 transition-all duration-300">
+    <span data-item-status-target="indicator" class="w-4 h-4 rounded-full border border-gray-300
+               flex items-center justify-center
+               transition-all duration-300">
+      <svg data-item-status-target="check" class="hidden w-2.5 h-2.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+      </svg>
     </span>
   </div>
 
-  <%# 商品名（検索欄） %>
   <div class="col-span-4 relative">
-    <input type="text" data-item-search-target="input" data-item-status-target="input" data-action="input->item-search#search
-                        input->item-status#update" name="pencil_case[pencil_case_items_attributes][<%= f.index %>][item_name]" placeholder="商品名で検索または入力" autocomplete="off" class="w-full h-9 border border-gray-200 rounded px-3
-                  text-xs text-gray-900 placeholder-gray-300
-                  focus:border-gray-400 focus:outline-none">
+    <input type="text" data-item-search-target="input" data-item-status-target="input" data-action="input->item-search#search input->item-status#update" name="pencil_case[pencil_case_items_attributes][<%= f.index %>][item_name]" placeholder="商品名で検索または入力" autocomplete="off" class="w-full h-9 border border-gray-200 rounded px-3
+    text-xs text-gray-900 placeholder-gray-300
+    focus:border-gray-400 focus:outline-none">
     <div data-item-search-target="suggestions" class="hidden absolute z-20 w-full bg-white border
                 border-gray-200 rounded-md shadow-lg mt-1
                 max-h-48 overflow-y-auto">
@@ -22,17 +23,17 @@
 
   <%# ブランド %>
   <div class="col-span-3">
-    <input type="text" data-item-search-target="brandInput" name="pencil_case[pencil_case_items_attributes][<%= f.index %>][brand_name]" placeholder="ブランド" autocomplete="off" class="w-full h-9 border border-gray-200 rounded px-3
+    <input type="text" data-action="input->item-status#update" data-item-search-target="brandInput" data-item-status-target="brandInput" name="pencil_case[pencil_case_items_attributes][<%= f.index %>][brand_name]" placeholder="ブランド" autocomplete="off" class="w-full h-9 border border-gray-200 rounded px-3
                   text-xs text-gray-900 placeholder-gray-300
                   focus:border-gray-400 focus:outline-none">
   </div>
 
   <%# カテゴリ %>
   <div class="col-span-3">
-    <select data-item-search-target="categorySelect" name="pencil_case[pencil_case_items_attributes][<%= f.index %>][category_id]" class="w-full h-9 border border-gray-200 rounded px-2
+    <select data-action="input->item-status#update" data-item-search-target="categorySelect" data-item-status-target="categorySelect" name="pencil_case[pencil_case_items_attributes][<%= f.index %>][category_id]" class="w-full h-9 border border-gray-200 rounded px-2
                    text-xs text-gray-900 bg-white
                    focus:border-gray-400 focus:outline-none">
-      <option value="">カテゴリ</option>
+      <option value="">カテゴリを選択</option>
       <% categories.each do |cat| %>
       <option value="<%= cat.id %>"><%= cat.name %></option>
       <% end %>

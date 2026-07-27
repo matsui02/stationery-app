@@ -7,7 +7,7 @@
 
   <% if user_signed_in? %>
   <nav class="flex items-center gap-8">
-    <%= link_to "筆箱一覧", pencil_cases_path,
+    <%= link_to "投稿一覧", pencil_cases_path,
         class: "text-base text-gray-500 tracking-wide
                 hover:text-black transition-colors duration-150" %>
 
@@ -17,7 +17,6 @@
                 'text-black font-medium' :
                 'text-gray-500 hover:text-black'}" %>
 
-    <%# 区切り線 %>
     <span class="h-5 w-px bg-gray-200"></span>
 
     <div data-controller="dropdown" class="relative">
@@ -37,19 +36,16 @@
         <% end %>
       </button>
 
-
-      <!-- ドロップダウン -->
       <div data-dropdown-target="menu" class="hidden absolute right-0 mt-3 w-56
             bg-white border border-gray-200
             rounded-md shadow-lg z-30">
 
-        <!-- ユーザー情報 -->
         <div class="px-5 py-4 border-b border-gray-100">
           <p class="text-sm font-medium text-gray-900 tracking-wide">
             <%= current_user.name %>
           </p>
         </div>
-        <!-- メニュー -->
+
         <div class="py-2">
           <%= link_to "プロフィール",
         accounts_path,
@@ -68,6 +64,7 @@
           <% end %>
         </div>
       </div>
+    </div>
   </nav>
   <% elsif !%w[accounts registrations sessions passwords].include?(controller_name) %>
   <div class="flex gap-4">

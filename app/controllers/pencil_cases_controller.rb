@@ -2,6 +2,10 @@ class PencilCasesController < ApplicationController
   before_action :authenticate_user!
 
   def index
+    @q = PencilCase.ransack(params[:q])
+    @pencil_cases = @q.result
+      .order(created_at: :desc)
+      .includes(:user, image_attachment: :blob)
   end
 
   def show

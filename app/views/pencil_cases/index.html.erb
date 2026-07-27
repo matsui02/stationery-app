@@ -1,3 +1,36 @@
 <%= render "shared/back_link",
       path:  root_path,
       label: "トップ" %>
+
+<div class="px-[50px] py-8">
+  <div class="mb-6">
+    <%= render "search_form" %>
+  </div>
+
+  <%# 検索結果のメッセージ %>
+  <% if params[:q].present? %>
+  <p class="text-xs text-gray-400 tracking-wide mb-4">
+    "<%= params.dig(:q, :title_or_concept_cont) %>"
+    の検索結果：<%= @pencil_cases.count %>件
+  </p>
+  <% end %>
+
+  <%# 投稿一覧 %>
+  <% if @pencil_cases.present? %>
+  <div class="grid grid-cols-4 gap-x-5 gap-y-8">
+    <% @pencil_cases.each do |pencil_case| %>
+    <%= render "pencil_case_card", pencil_case: pencil_case %>
+    <% end %>
+  </div>
+  <% else %>
+  <div class="flex flex-col items-center justify-center py-24">
+    <p class="text-sm text-gray-400 tracking-wide mb-4">
+      投稿が見つかりませんでした
+    </p>
+    <%= link_to "リセット", pencil_cases_path,
+            class: "text-xs border border-black px-4 py-2
+                    rounded hover:bg-black hover:text-white
+                    transition-colors duration-150" %>
+  </div>
+  <% end %>
+</div>
