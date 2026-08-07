@@ -5,7 +5,11 @@ class PencilCasesController < ApplicationController
     @q = PencilCase.ransack(params[:q])
     @pencil_cases = @q.result
       .order(created_at: :desc)
-      .includes(:user, image_attachment: :blob)
+      .includes(:user, image_attachment: :blob,
+                pencil_case_items: { item: [:brand, :category] })
+
+    @brands     = Brand.order(:name).pluck(:name)
+    @categories = Category.order(:name).pluck(:name)
   end
 
   def show
@@ -22,6 +26,8 @@ class PencilCasesController < ApplicationController
 
   def create
     @pencil_case = current_user.pencil_cases.build(pencil_case_params)
+
+    create_items
 
     if @pencil_case.save
       flash[:notice] = "筆箱を投稿しました。"
@@ -43,6 +49,9 @@ class PencilCasesController < ApplicationController
       pencil_case_items_attributes: [
         :id,
         :item_id,
+        :new_item_name,
+        :new_brand_name,
+        :new_category_id,
         :_destroy
       ]
     )
@@ -54,12 +63,28 @@ class PencilCasesController < ApplicationController
     @item_names = Item.order(:name).pluck(:name)
   end
 
-  def edit
-  end
+  def create_items
+    @pencil_case.pencil_case_items.each do |pencil_case_item|
 
-  def update
-  end
+      next if pencil_case_item.item_id.present?
 
-  def destroy
+      brand = Brand.find_or_create_by!(
+        name: pencil_case_item.new_brand_name.presence || "その他"
+      )
+
+      category =
+        if pencil_case_item.new_category_id.present?
+          Category.find(pencil_case_item.new_category_id)
+        else
+          Category.find_or_create_by!(name: "その他")
+        end
+
+      item = Item.find_or_create_by!(
+        name: pencil_case_item.new_item_name,
+        brand: brand,
+        category: category
+      )
+      pencil_case_item.item = item
+    end
   end
 end

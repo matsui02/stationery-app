@@ -1,0 +1,112 @@
+<%= search_form_for @q, url: pencil_cases_path do |f| %>
+<div class="bg-white border border-gray-200 rounded-md
+              shadow-lg overflow-hidden">
+
+  <%# ヘッダー %>
+  <div class="flex items-center justify-between px-4 py-3
+                border-b border-gray-100">
+    <span class="text-xs font-medium text-gray-700 tracking-wide">
+      絞り込み
+    </span>
+    <% if active_filter_count > 0 %>
+    <%= link_to "リセット", pencil_cases_path,
+              class: "text-[10px] text-gray-400
+                      hover:text-gray-600
+                      transition-colors duration-150" %>
+    <% end %>
+  </div>
+
+  <div class="p-4 space-y-4">
+
+    <%# カテゴリ %>
+    <div>
+      <p class="text-[9px] tracking-[0.15em] text-gray-300
+                   uppercase mb-2">カテゴリ</p>
+      <div class="grid grid-cols-2 gap-1.5">
+        <% @categories.each do |cat| %>
+        <label class="flex items-center gap-2 cursor-pointer group">
+          <input type="radio" name="q[pencil_case_items_item_category_name_eq]" value="<%= cat %>" <%= "checked" if params.dig(:q, :pencil_case_items_item_category_name_eq) == cat %> class="w-3 h-3 accent-black flex-shrink-0">
+          <span class="text-xs text-gray-600
+                           group-hover:text-gray-900
+                           transition-colors duration-100 truncate">
+            <%= cat %>
+          </span>
+        </label>
+        <% end %>
+        <label class="flex items-center gap-2 cursor-pointer group">
+          <input type="radio" name="q[pencil_case_items_item_category_name_eq]" value="" <%= "checked" if params.dig(:q, :pencil_case_items_item_category_name_eq).blank? %> class="w-3 h-3 accent-black flex-shrink-0">
+          <span class="text-xs text-gray-400
+                         group-hover:text-gray-600
+                         transition-colors duration-100">
+            すべて
+          </span>
+        </label>
+      </div>
+    </div>
+
+    <%# ブランド・商品名 横並び %>
+    <div class="grid grid-cols-2 gap-3">
+      <div>
+        <p class="text-[9px] tracking-[0.15em] text-gray-300
+                     uppercase mb-2">商品名</p>
+        <%= f.search_field :pencil_case_items_item_name_cont,
+                placeholder: "例：Safari",
+                class: "w-full h-8 border border-gray-200 rounded
+                        px-2.5 text-xs text-gray-900
+                        placeholder-gray-300 bg-white
+                        focus:border-gray-400 focus:outline-none
+                        transition-colors duration-150" %>
+      </div>
+      <div>
+        <p class="text-[9px] tracking-[0.15em] text-gray-300
+                     uppercase mb-2">ブランド</p>
+        <%= f.search_field :pencil_case_items_item_brand_name_cont,
+                placeholder: "例：LAMY",
+                class: "w-full h-8 border border-gray-200 rounded
+                        px-2.5 text-xs text-gray-900
+                        placeholder-gray-300 bg-white
+                        focus:border-gray-400 focus:outline-none
+                        transition-colors duration-150" %>
+      </div>
+    </div>
+
+    <%# 投稿者名 %>
+    <div>
+      <p class="text-[9px] tracking-[0.15em] text-gray-300
+                   uppercase mb-2">投稿者名</p>
+      <%= f.search_field :user_name_cont,
+              placeholder: "例：山田 太郎",
+              class: "w-full h-8 border border-gray-200 rounded
+                      px-2.5 text-xs text-gray-900
+                      placeholder-gray-300 bg-white
+                      focus:border-gray-400 focus:outline-none
+                      transition-colors duration-150" %>
+    </div>
+
+    <%# 投稿日 %>
+    <div>
+      <p class="text-[9px] tracking-[0.15em] text-gray-300
+                   uppercase mb-2">投稿日</p>
+      <div class="flex items-center gap-2">
+        <%= f.date_field :created_at_gteq,
+                class: "flex-1 h-8 border border-gray-200 rounded
+                        px-2 text-xs text-gray-900 bg-white
+                        focus:border-gray-400 focus:outline-none
+                        transition-colors duration-150" %>
+        <span class="text-[10px] text-gray-300 flex-shrink-0">〜</span>
+        <%= f.date_field :created_at_lteq,
+                class: "flex-1 h-8 border border-gray-200 rounded
+                        px-2 text-xs text-gray-900 bg-white
+                        focus:border-gray-400 focus:outline-none
+                        transition-colors duration-150" %>
+      </div>
+    </div>
+
+    <%# 適用ボタン %>
+    <%= f.submit "適用する",
+            class: "w-full h-9 bg-black text-white text-xs
+                    tracking-widest rounded cursor-pointer
+                    hover:bg-gray-800 transition-colors duration-150" %>
+  </div>
+</div>
+<% end %>

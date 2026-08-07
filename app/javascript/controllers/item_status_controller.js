@@ -9,6 +9,10 @@ export default class extends Controller {
     "check"
   ]
 
+  connect() {
+    this.update()
+  }
+
   update() {
     const itemName = this.inputTarget.value.trim()
     const brand    = this.brandInputTarget.value.trim()

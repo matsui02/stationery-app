@@ -14,10 +14,11 @@ export default class extends Controller {
   }
 
   connect() {
-    document.addEventListener("click", this.close.bind(this))
+    this.boundClose = this.close.bind(this)
+    document.addEventListener("click", this.boundClose)
   }
 
   disconnect() {
-    document.removeEventListener("click", this.close.bind(this))
+    document.removeEventListener("click", this.boundClose)
   }
 }

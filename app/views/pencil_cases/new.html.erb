@@ -2,29 +2,17 @@
       path:  pencil_cases_path,
       label: "投稿一覧" %>
 
+<%= render "shared/tabs",
+      tabs: [
+        { label: "筆箱紹介", class: "flex-1 text-center" },
+        { label: "お気に入りの1本", class: "flex-1 text-center" },
+      ],
+      wrapper_class: "w-full max-w-xl mx-auto" %>
+
 <div data-controller="tabs">
-  <%= render "shared/tabs",
-    tabs: [
-      { label: "筆箱紹介",       class: "flex-1 text-center" },
-      { label: "お気に入りの1本", class: "flex-1 text-center" }
-    ],
-    wrapper_class: "w-full max-w-xl mx-auto mt-6" %>
 
   <%# ===== 筆箱紹介フォーム ===== %>
-  <div data-tabs-target="panel" class="w-full max-w-xl mx-auto mt-6">
-
-    <%# datalist（ブランド・商品名の候補） %>
-    <datalist id="brands-list">
-      <% @brands.each do |name| %>
-      <option value="<%= name %>">
-        <% end %>
-    </datalist>
-
-    <datalist id="items-list">
-      <% @item_names.each do |name| %>
-      <option value="<%= name %>">
-        <% end %>
-    </datalist>
+  <div data-tabs-target="panel" class="w-full max-w-xl mx-auto mt-[40px]">
 
     <%= form_with model: @pencil_case,
           url: pencil_cases_path,
@@ -63,41 +51,30 @@
 
     <%# 画像アップロード %>
     <div class="mb-4" data-controller="image-preview">
-
       <div class="relative border border-dashed border-gray-300 rounded-md
               h-40 flex flex-col items-center justify-center
               cursor-pointer hover:border-gray-500
               transition-colors duration-150 overflow-hidden" data-action="click->image-preview#open">
 
-
         <%# プレビュー画像 %>
         <img data-image-preview-target="preview" class="hidden absolute inset-0 w-full h-full object-cover" />
 
-
         <%# 初期表示 %>
         <div data-image-preview-target="placeholder" class="flex flex-col items-center justify-center">
-
           <svg class="w-8 h-8 text-gray-300 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 16.5v2.25A2.25
               2.25 0 005.25 21h13.5
               A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5
               4.5M12 3v13.5" />
-
           </svg>
-
           <p class="text-xs text-gray-400">
             クリックして画像を選択
           </p>
-
           <p class="text-xs text-gray-300 mt-1">
             jpeg / jpg / png / webp
           </p>
-
         </div>
-
       </div>
-
 
       <%= f.file_field :image,
       id: "pencil-image",
@@ -107,7 +84,11 @@
         image_preview_target: "input",
         action: "change->image-preview#preview"
       } %>
-
+      <% @pencil_case.errors[:image].each do |message| %>
+      <p class="mt-1.5 text-xs text-red-500 tracking-wide">
+        ・画像<%= message %>
+      </p>
+      <% end %>
     </div>
 
     <%# 収納アイテム %>
@@ -169,7 +150,7 @@
 
   <%# ===== お気に入りの1本フォーム ===== %>
   <div data-tabs-target="panel" class="w-full max-w-2xl mx-auto mt-6 hidden">
-    <%# ...お気に入りの1本フォーム... %>
+
   </div>
 </div>
 
@@ -187,10 +168,9 @@
       </span>
     </div>
 
-    <%# 商品名：6列 → 4列に縮小 %>
     <div class="col-span-4 relative">
       <input type="text" data-item-search-target="input" data-item-status-target="input" data-action="input->item-search#search
-                          input->item-status#update" name="pencil_case[pencil_case_items_attributes][NEW_INDEX][item_name]" placeholder="商品名で検索または入力" autocomplete="off" class="w-full h-9 border border-gray-200 rounded px-2.5
+                          input->item-status#update" name="pencil_case[pencil_case_items_attributes][NEW_INDEX][new_item_name]" placeholder="商品名で検索または入力" autocomplete="off" class="w-full h-9 border border-gray-200 rounded px-2.5
                     text-xs text-gray-900 placeholder-gray-300
                     focus:border-gray-400 focus:outline-none">
       <div data-item-search-target="suggestions" class="hidden absolute z-20 w-full bg-white border
@@ -202,14 +182,14 @@
 
     <%# ブランド：2列 %>
     <div class="col-span-3">
-      <input type="text" data-item-search-target="brandInput" data-item-status-target="brandInput" data-action="input->item-status#update" name="pencil_case[pencil_case_items_attributes][NEW_INDEX][brand_name]" placeholder="ブランド" autocomplete="off" class="w-full h-9 border border-gray-200 rounded px-2.5
+      <input type="text" data-item-search-target="brandInput" data-item-status-target="brandInput" data-action="input->item-status#update" name="pencil_case[pencil_case_items_attributes][NEW_INDEX][new_brand_name]" placeholder="ブランド" autocomplete="off" class="w-full h-9 border border-gray-200 rounded px-2.5
                     text-xs text-gray-900 placeholder-gray-300
                     focus:border-gray-400 focus:outline-none">
     </div>
 
     <%# カテゴリ：3列 %>
     <div class="col-span-3">
-      <select data-item-search-target="categorySelect" data-item-status-target="categorySelect" data-action="change->item-status#update" name="pencil_case[pencil_case_items_attributes][NEW_INDEX][category_id]" class="w-full h-9 border border-gray-200 rounded px-2
+      <select data-item-search-target="categorySelect" data-item-status-target="categorySelect" data-action="change->item-status#update" name="pencil_case[pencil_case_items_attributes][NEW_INDEX][new_category_id]" class="w-full h-9 border border-gray-200 rounded px-2
                      text-xs text-gray-900 bg-white
                      focus:border-gray-400 focus:outline-none">
         <option value="">カテゴリを選択</option>

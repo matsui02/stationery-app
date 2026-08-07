@@ -35,3 +35,9 @@ application.register("item-status", ItemStatusController)
 
 import ImagePreviewController from "./image_preview_controller"
 application.register("image-preview", ImagePreviewController)
+
+import CollapseController from "./collapse_controller"
+application.register("collapse", CollapseController)
+
+import DrawerController from "./drawer_controller"
+application.register("drawer", DrawerController)

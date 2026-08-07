@@ -8,8 +8,8 @@ export default class extends Controller {
   }
 
   connect() {
-    const LOGIN_TAB_INDEX = 1
     const SIGNUP_TAB_INDEX = 0
+    const LOGIN_TAB_INDEX = 1
 
     const tab = new URLSearchParams(window.location.search).get("tab")
 

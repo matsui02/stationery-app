@@ -20,7 +20,7 @@ class PencilCase < ApplicationRecord
   end
 
   def self.ransackable_associations(auth_object = nil)
-    %w[user]
+    %w[user pencil_case_items]
   end
 
   private
