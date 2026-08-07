@@ -1,29 +1,8 @@
-<section class="relative <%= local_assigns[:hero_height] || "h-[500px]" %>">
-  <%= image_tag "top/top-hero.png",
-      class: "w-full h-full object-cover",
-      alt: "Pencaseのトップ画像" %>
-  <div class="absolute inset-0 bg-black/20"></div>
-  <div class="absolute inset-0 flex items-center">
-    <div class="px-[50px] text-white">
-      <h2 class="font-noto-serif text-4xl font-bold leading-relaxed">
-        自分の筆箱を投稿して<br>
-        お気に入りの文房具を見つけよう
-      </h2>
-      <% if local_assigns[:show_auth_buttons] && !user_signed_in? %>
-      <div class="mt-10 flex gap-4">
-        <%= link_to "新規登録", accounts_path(tab: "signup"),
-            class: "w-40 rounded-sm bg-white py-3 text-center text-[18px]
-                text-black tracking-widest border border-white
-                transition-colors duration-200 hover:bg-gray-100
-                cursor-pointer" %>
-
-        <%= link_to "ログイン", accounts_path(tab: "login"),
-            class: "w-40 rounded-sm border border-gray-600 bg-black
-                py-3 text-center text-[18px] text-white tracking-widest
-                transition-colors duration-200 hover:bg-gray-800
-                cursor-pointer" %>
-      </div>
-      <% end %>
-    </div>
-  </div>
-</section>
+<div class="relative w-full <%= height %>">
+  <%= image_tag 'top/top-hero.png', class: "object-cover h-full" %>
+  <div class="absolute top-0 bottom-0 w-full h-full bg-black opacity-[0.1]"></div>
+  <p class="absolute top-[50%] translate-y-[-50%] left-[50px] font-noto-serif text-white text-[40px] font-semibold">
+    自分の筆箱を投稿して<br>
+    お気に入りの文房具を見つけよう
+  </p>
+</div>
