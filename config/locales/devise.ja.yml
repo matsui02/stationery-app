@@ -1,11 +1,21 @@
 ja:
-  devise:
-    failure:
-      invalid: "メールアドレスまたはパスワードが間違っています。"
-    sessions:
-      signed_in:  "ログインしました。"
-      signed_out: "ログアウトしました。"
-    registrations:
-      signed_up: "登録が完了しました。"
-    passwords:
-      send_instructions: "パスワードリセットのメールを送信しました。"
+  activerecord:
+    attributes:
+      user:
+        password_confirmation: "パスワード (確認)"
+    errors:
+      models:
+        user:
+          attributes:
+            password_confirmation:
+              confirmation: "パスワードが一致しません"
+    devise:
+      failure:
+        invalid: "メールアドレスまたはパスワードが間違っています。"
+      sessions:
+        signed_in:  "ログインしました。"
+        signed_out: "ログアウトしました。"
+      registrations:
+        signed_up: "登録が完了しました。"
+      passwords:
+        send_instructions: "パスワードリセットのメールを送信しました。"

@@ -6,8 +6,8 @@ application.register("hello", HelloController)
 import PasswordConfirmationController from "./password_confirmation_controller"
 application.register("password-confirmation", PasswordConfirmationController)
 
-import PasswordStrengthController from "./password_strength_controller"
-application.register("password-strength", PasswordStrengthController)
+// import PasswordStrengthController from "./password_strength_controller"
+// application.register("password-strength", PasswordStrengthController)
 
 import PasswordVisibilityController from "./password_visibility_controller"
 application.register("password-visibility", PasswordVisibilityController)
