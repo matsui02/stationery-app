@@ -6,6 +6,19 @@ class Users::SessionsController < Devise::SessionsController
     render "accounts/show", status: :unprocessable_entity
   end
 
+  def create
+    super do |resource|
+      if resource.persisted?
+        flash[:notice] = "ログインしました。"
+      end
+    end
+  end
+
+  def destroy
+    super
+    flash[:notice] = "ログアウトしました。"
+  end
+
   protected
 
   def after_sign_in_path_for(resource)

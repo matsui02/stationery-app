@@ -11,7 +11,7 @@
         data: { turbo_method: :delete },
         class: "px-6 h-11 flex items-center justify-center rounded-md bg-black text-white font-medium hover:bg-gray-800 transition-colors" %>
 
-  <% elsif !current_page?(accounts_path) %>
+  <% elsif request.path != accounts_path %>
   <div class="flex gap-4">
     <%= link_to "新規登録", accounts_path(tab: "signup"),
             class: "px-6 h-11 flex items-center justify-center rounded-md border border-black bg-white text-black font-medium hover:bg-gray-100 transition-colors" %>
