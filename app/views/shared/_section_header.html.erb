@@ -1,0 +1,20 @@
+<div class="flex items-center justify-between mb-4">
+  <div class="flex items-baseline gap-3">
+    <h2 class="font-normal font-noto-serif text-[35px] tracking-wide">
+      <%= title %>
+    </h2>
+
+    <span class="font-thin text-[40px] leading-none">/</span>
+
+    <small class="text-[20px] text-gray-400 tracking-widest">
+      <%= subtitle %>
+    </small>
+  </div>
+
+  <% if link_label.present? && link_path.present? %>
+  <%= link_to link_label, link_path,
+          class: "text-xs border border-gray-800 px-3 py-1.5
+                  rounded hover:bg-gray-800 hover:text-white
+                  transition-colors duration-150" %>
+  <% end %>
+</div>
