@@ -3,7 +3,7 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static values = {
     message: String,
-    type:    String   // "notice" or "alert"
+    type:    String
   }
 
   connect() {
@@ -22,7 +22,6 @@ export default class extends Controller {
       style:       isAlert ? this.alertStyle() : this.noticeStyle()
     }).showToast()
 
-    // 表示後に要素を削除
     this.element.remove()
   }
 

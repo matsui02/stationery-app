@@ -1,0 +1,45 @@
+<div class="grid grid-cols-12 gap-2 mb-3 items-start pencil-case-item" data-controller="item-search" data-item-search-categories-value="<%= @categories.map { |c| "<option value='#{c.id}'>#{c.name}</option>" }.join %>">
+
+  <%# 商品名（検索欄） %>
+  <div class="col-span-5 relative">
+    <input type="text" data-item-search-target="input" data-action="input->item-search#search" name="pencil_case[pencil_case_items_attributes][<%= f.index %>][item_name]" placeholder="商品名で検索または入力" autocomplete="off" class="w-full h-9 border border-gray-200 rounded px-3
+                  text-xs text-gray-900 placeholder-gray-300
+                  focus:border-gray-400 focus:outline-none">
+
+    <%# サジェストドロップダウン %>
+    <div data-item-search-target="suggestions" class="hidden absolute z-20 w-full bg-white border
+                border-gray-200 rounded-md shadow-lg mt-1
+                max-h-48 overflow-y-auto">
+    </div>
+
+    <%# 選択されたitem_id（hidden） %>
+    <input type="hidden" data-item-search-target="itemIdInput" name="pencil_case[pencil_case_items_attributes][<%= f.index %>][item_id]">
+  </div>
+
+  <%# ブランド（自動入力） %>
+  <div class="col-span-3">
+    <input type="text" data-item-search-target="brandInput" name="pencil_case[pencil_case_items_attributes][<%= f.index %>][brand_name]" placeholder="ブランド" autocomplete="off" class="w-full h-9 border border-gray-200 rounded px-3
+                  text-xs text-gray-900 placeholder-gray-300
+                  focus:border-gray-400 focus:outline-none">
+  </div>
+
+  <%# カテゴリ（自動選択） %>
+  <div class="col-span-3">
+    <select data-item-search-target="categorySelect" name="pencil_case[pencil_case_items_attributes][<%= f.index %>][category_id]" class="w-full h-9 border border-gray-200 rounded px-2
+                   text-xs text-gray-900 bg-white
+                   focus:border-gray-400 focus:outline-none">
+      <option value="">カテゴリ</option>
+      <% categories.each do |cat| %>
+      <option value="<%= cat.id %>"><%= cat.name %></option>
+      <% end %>
+    </select>
+  </div>
+
+  <%# 削除ボタン %>
+  <div class="col-span-1 flex justify-center pt-1.5">
+    <button type="button" onclick="this.closest('.pencil-case-item').remove()" class="text-gray-300 hover:text-red-400
+                   transition-colors duration-150 text-lg leading-none">
+      ✕
+    </button>
+  </div>
+</div>

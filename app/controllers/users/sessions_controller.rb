@@ -1,16 +1,20 @@
 class Users::SessionsController < Devise::SessionsController
   def new
-    @login_resource = User.new
+    @login_resource  = User.new
     @register_resource = User.new
-
-    render "accounts/show", status: :unprocessable_entity
+    render "accounts/show"
   end
 
   def create
-    super do |resource|
-      if resource.persisted?
-        flash[:notice] = "ログインしました。"
-      end
+    self.resource = warden.authenticate(auth_options)
+
+    if resource
+      sign_in(resource_name, resource)
+      flash[:notice] = "ログインしました。"
+      redirect_to after_sign_in_path_for(resource)
+    else
+      flash[:alert] = "メールアドレスまたはパスワードが間違っています。"
+      redirect_to accounts_path(tab: "login")
     end
   end
 

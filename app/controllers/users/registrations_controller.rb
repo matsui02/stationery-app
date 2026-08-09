@@ -4,13 +4,14 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
     if resource.save
       sign_up(resource_name, resource)
-      flash[:notice] = "登録が完了しました。"  # ← 追加
-      redirect_to after_sign_up_path_for(resource)
+      flash[:notice] = "登録が完了しました。"
+      redirect_to root_path
     else
       @register_resource = resource
       @login_resource = User.new
 
-      render "accounts/show", status: :unprocessable_entity
+      flash[:register_errors] = resource.errors.to_hash
+      redirect_to accounts_path(tab: "signup")
     end
   end
 
