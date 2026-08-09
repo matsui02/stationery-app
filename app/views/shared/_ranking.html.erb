@@ -4,5 +4,10 @@
         subtitle:   "ランキング",
         link_label: nil,
         link_path:  nil %>
-  <%= render "shared/tabs" %>
+  <%= render "shared/tabs",
+      tabs: [
+        { label: "筆箱紹介" },
+        { label: "お気に入りの1本" },
+      ],
+      wrapper_class: "w-full" %>
 </section>

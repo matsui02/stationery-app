@@ -1,3 +1,17 @@
-<header>
-  <h1 class="border-b border-gray-200 bg-white font-noto-serif text-5xl px-[50px] py-[30px]">Pencase</h1>
+<header class="flex items-center justify-between border-b border-gray-200 bg-white px-[50px] py-[20px]">
+  <%= link_to root_path do %>
+  <h1 class="font-noto-serif text-[42px]">
+    Pencase
+  </h1>
+  <% end %>
+
+  <% unless user_signed_in? || current_page?(accounts_path) %>
+  <div class="flex gap-4">
+    <%= link_to "新規登録", accounts_path(tab: "signup"),
+          class: "px-6 h-11 flex items-center justify-center rounded-md border border-black bg-white text-black font-medium hover:bg-gray-100 transition-colors" %>
+
+    <%= link_to "ログイン", accounts_path(tab: "login"),
+          class: "px-6 h-11 flex items-center justify-center rounded-md bg-black text-white font-medium hover:bg-gray-800 transition-colors" %>
+  </div>
+  <% end %>
 </header>
