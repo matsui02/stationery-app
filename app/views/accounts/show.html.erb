@@ -1,6 +1,6 @@
 <%= render "top/hero_section", show_auth_buttons: false, hero_height: "h-[250px]" %>
 
-<div data-controller="tabs">
+<div data-controller="tabs" data-tabs-default-value="<%= flash[:alert].present? ? 1 : 0 %>">
   <%= render "shared/tabs",
     tabs: [
       { label: "新規登録", class: "flex-1 text-center" },
@@ -9,7 +9,7 @@
     wrapper_class: "w-full max-w-sm mx-auto mt-3" %>
 
   <!-- 新規登録フォーム -->
-  <div data-tabs-target="panel" class="tab-content w-full max-w-sm mx-auto mt-6 <%= 'hidden' if @login_resource.errors.any? %>" id="tab-register">
+  <div data-tabs-target="panel" class="tab-content w-full max-w-sm mx-auto mt-6" id="tab-register">
     <%= form_with model: @register_resource, url: user_registration_path, method: :post, html: { novalidate: true } do |f| %>
     <div>
       <%= f.label :name, "ユーザー名 (必須)",
@@ -115,15 +115,23 @@
   hover:bg-gray-800" %>
     <% end %>
   </div>
+
   <!-- ログインフォーム -->
-  <div data-tabs-target="panel" class="tab-content w-full max-w-sm mx-auto mt-6 <%= 'hidden' unless @login_resource.errors.any? %>" id="tab-login">
-    <% if @login_resource.errors.any? %>
-    <div class="mb-5 border border-red-200 bg-red-50 rounded px-4 py-3">
-      <% @login_resource.errors.full_messages.each do |msg| %>
-      <p class="text-xs text-red-600 leading-relaxed">
-        ・<%= msg %>
-      </p>
-      <% end %>
+  <div data-tabs-target="panel" class="tab-content w-full max-w-sm mx-auto mt-6 hidden" id="tab-login">
+    <% if flash[:alert].present? %>
+    <div class="mb-5 flex items-start gap-3 rounded-lg border border-red-200 bg-red-50 px-4 py-3">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="mt-0.5 h-5 w-5 shrink-0 text-red-500">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m0 3.75h.007v.008H12v-.008ZM21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+      </svg>
+
+      <div>
+        <p class="text-sm font-medium text-red-700">
+          ログインできませんでした
+        </p>
+        <p class="mt-1 text-xs text-red-600">
+          <%= flash[:alert] %>
+        </p>
+      </div>
     </div>
     <% end %>
     <%= form_with model: @login_resource,
