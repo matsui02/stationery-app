@@ -120,13 +120,6 @@ export default class extends Controller {
           <option value="">カテゴリを選択</option>
           ${this.categoriesValue}
         </select>
-        <input type="number"
-               id="new-item-price"
-               placeholder="価格（任意）"
-               min="0"
-               class="w-full h-8 border border-gray-200 rounded px-3
-                      text-xs text-gray-900 focus:border-gray-400
-                      focus:outline-none">
         <button type="button"
                 data-action="click->item-search#saveNewItem"
                 class="w-full h-8 bg-black text-white text-xs
@@ -154,7 +147,6 @@ export default class extends Controller {
     const name       = document.getElementById('new-item-name')?.value.trim()
     const brandName  = document.getElementById('new-item-brand')?.value.trim()
     const categoryId = document.getElementById('new-item-category')?.value
-    const price      = document.getElementById('new-item-price')?.value
 
     if (!name) {
       alert('商品名を入力してください')
@@ -167,7 +159,7 @@ export default class extends Controller {
         'Content-Type': 'application/json',
         'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
       },
-      body: JSON.stringify({ name, brand_name: brandName, category_id: categoryId, price })
+      body: JSON.stringify({ name, brand_name: brandName, category_id: categoryId })
     })
 
     const item = await response.json()
@@ -202,13 +194,11 @@ export default class extends Controller {
 
     const result = await response.json()
 
-    // response.ok が false（400系・500系）の場合はエラーメッセージを表示
     if (!response.ok) {
       alert(result.error || '削除できませんでした')
       return
     }
 
-      // 削除成功時：該当行をドロップダウンから削除
       event.currentTarget.closest('.suggestion-row')?.remove()
   }
 

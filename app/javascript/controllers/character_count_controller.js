@@ -16,11 +16,11 @@ export default class extends Controller {
 
     // 上限に近づいたら色を変える
     if (current >= max) {
-      this.countTarget.style.color = "#ef4444"      // 赤：上限超過
+      this.countTarget.style.color = "#ef4444"
     } else if (current >= max * 0.8) {
-      this.countTarget.style.color = "#f59e0b"      // 黄：80%以上
+      this.countTarget.style.color = "#f59e0b"
     } else {
-      this.countTarget.style.color = "#9ca3af"      // グレー：通常
+      this.countTarget.style.color = "#9ca3af"
     }
   }
 }

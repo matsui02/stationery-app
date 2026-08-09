@@ -29,3 +29,6 @@ application.register("character-count", CharacterCountController)
 
 import DropdownController from "./dropdown_controller"
 application.register("dropdown", DropdownController)
+
+import ItemStatusController from "./item_status_controller"
+application.register("item-status", ItemStatusController)
