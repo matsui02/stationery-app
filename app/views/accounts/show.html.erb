@@ -10,7 +10,7 @@
 
   <!-- 新規登録フォーム -->
   <div data-tabs-target="panel" class="tab-content w-full max-w-sm mx-auto mt-6" id="tab-register">
-    <%= form_with model: @register_resource, url: user_registration_path, method: :post do |f| %>
+    <%= form_with model: @register_resource, url: user_registration_path, method: :post, html: { novalidate: true } do |f| %>
     <div>
       <%= f.label :name, "ユーザー名 (必須)",
     class: "block text-xs font-medium text-gray-500 tracking-wide mb-2" %>
@@ -25,6 +25,11 @@
             transition-all duration-150
             focus:border-gray-400 focus:ring-2 focus:ring-gray-100
             focus:outline-none" %>
+      <% if @register_resource.errors[:name].any? %>
+      <p class="text-xs text-red-600 mt-1">
+        ユーザー名<%= @register_resource.errors[:name].first %>
+      </p>
+      <% end %>
     </div>
     <div>
       <%= f.label :email, "メールアドレス (必須)",
@@ -39,6 +44,11 @@
     transition-all duration-150
     focus:border-gray-400 focus:ring-2 focus:ring-gray-100
     focus:outline-none" %>
+      <% if @register_resource.errors[:email].any? %>
+      <p class="text-xs text-red-600 mt-1">
+        メールアドレス<%= @register_resource.errors[:email].first %>
+      </p>
+      <% end %>
     </div>
     <div data-controller="password-confirmation">
       <div data-controller="password-strength">
@@ -73,6 +83,11 @@
             0 / 8文字
           </p>
         </div>
+        <% if @register_resource.errors[:password].any? %>
+        <p class="text-xs text-red-600 mt-1">
+          <%= @register_resource.errors.full_messages_for(:password).first %>
+        </p>
+        <% end %>
       </div>
       <%= f.label :password_confirmation, "パスワード確認 (必須)",
     class: "block text-xs font-medium text-gray-500 tracking-wide mt-4 mb-2" %>
@@ -159,3 +174,4 @@
       <% end %>
     </div>
   </div>
+</div>
