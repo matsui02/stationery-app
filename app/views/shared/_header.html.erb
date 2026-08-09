@@ -1,6 +1,6 @@
 <header class="flex items-center justify-between border-b border-gray-200 bg-white px-[50px] py-[20px]">
   <%= link_to root_path do %>
-  <h1 class="font-noto-serif text-[50px]">
+  <h1 class="font-noto-serif text-[43px]">
     Pencase
   </h1>
   <% end %>
@@ -35,7 +35,6 @@
           </span>
         </div>
         <% end %>
-
       </button>
 
 
@@ -71,7 +70,7 @@
       </div>
   </nav>
   <% elsif !%w[accounts registrations sessions passwords].include?(controller_name) %>
-  <div class="flex gap-8">
+  <div class="flex gap-4">
     <%= link_to "新規登録", accounts_path(tab: "signup"),
           class: "px-6 h-10 flex items-center justify-center rounded-md border border-black bg-white text-black font-medium hover:bg-gray-100 transition-colors" %>
 

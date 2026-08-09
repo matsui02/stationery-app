@@ -3,11 +3,14 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = ["tab", "panel"]
 
-  connect() {
-    const params = new URLSearchParams(window.location.search)
-    const tab    = params.get("tab")
+  static values = {
+    activeTab: String
+  }
 
-    if (tab === "login") {
+  connect() {
+    const tab = new URLSearchParams(window.location.search).get("tab")
+
+    if (this.activeTabValue === "login" || tab === "login") {
       this.showTab(1)
     } else {
       this.showTab(0)

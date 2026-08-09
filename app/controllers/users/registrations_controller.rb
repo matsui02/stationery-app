@@ -9,9 +9,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
     else
       @register_resource = resource
       @login_resource = User.new
-
-      flash[:register_errors] = resource.errors.to_hash
-      redirect_to accounts_path(tab: "signup")
+      @active_tab = "sign_up"
+      render "accounts/show",
+            status: :unprocessable_entity
     end
   end
 

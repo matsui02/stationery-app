@@ -31,7 +31,10 @@
 
 <body>
   <%= render "shared/header" %>
+
+  <% unless controller_name == "sessions" || controller_name == "accounts" %>
   <%= render "shared/flash" %>
+  <% end %>
   <%= yield %>
 </body>
 
