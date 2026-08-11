@@ -1,80 +1,12 @@
-<header class="flex items-center justify-between border-b border-gray-200 bg-white px-[50px] py-[20px]">
-  <%= link_to root_path do %>
-  <h1 class="font-noto-serif text-[43px]">
-    Pencase
-  </h1>
-  <% end %>
-
-  <% if user_signed_in? %>
-  <nav class="flex items-center gap-8">
-    <%= link_to "投稿一覧", pencil_cases_path,
-        class: "text-base tracking-wide transition-colors duration-150
-                #{current_page?(pencil_cases_path) ?
-                'text-black font-medium' :
-                'text-gray-500 hover:text-black'}"%>
-
-    <%= link_to "投稿する", new_pencil_case_path,
-      class: "text-base tracking-wide transition-colors duration-150
-              #{current_page?(new_pencil_case_path) ?
-                'text-black font-medium' :
-                'text-gray-500 hover:text-black'}" %>
-
-    <span class="h-5 w-px bg-gray-200"></span>
-
-    <div data-controller="dropdown" class="relative">
-
-      <!-- ユーザーアイコン -->
-      <button type="button" data-action="click->dropdown#toggle" class="w-10 h-10 rounded-full overflow-hidden">
-
-        <% if current_user.avatar.attached? %>
-        <%= image_tag current_user.avatar,
-          class: "w-full h-full object-cover" %>
-        <% else %>
-        <div class="w-full h-full bg-gray-200 flex items-center justify-center">
-          <span class="text-sm text-gray-500">
-            <%= current_user.name.first %>
-          </span>
-        </div>
-        <% end %>
-      </button>
-
-      <div data-dropdown-target="menu" class="hidden absolute right-0 mt-3 w-56
-            bg-white border border-gray-200
-            rounded-md shadow-lg z-30">
-
-        <div class="px-5 py-4 border-b border-gray-100">
-          <p class="text-sm font-medium text-gray-900 tracking-wide">
-            <%= current_user.name %>
-          </p>
-        </div>
-
-        <div class="py-2">
-          <%= link_to "プロフィール",
-        "#",
-        class: "block px-5 py-3 text-sm
-                text-gray-600 tracking-wide
-                hover:bg-gray-50
-                transition-colors duration-150" %>
-
-          <%= link_to destroy_user_session_path,
-        data: { turbo_method: :delete },
-        class: "block px-5 py-3 text-sm
-                text-gray-600 tracking-wide
-                hover:bg-gray-50
-                transition-colors duration-150" do %>
-          ログアウト
-          <% end %>
-        </div>
-      </div>
+<header class="px-[50px] py-6">
+  <% if !user_signed_in? %>
+  <div class="flex items-center justify-between">
+    <%= link_to "Pencase", root_path, class: "font-noto-serif text-[40px]" %>
+    <div class="flex items-center gap-5">
+      <%= link_to "新規登録", "#", class: "sign-up-btn" %>
+      <%= link_to "ログイン", "#", class: "sign-in-btn" %>
     </div>
-  </nav>
-  <% elsif !%w[accounts registrations sessions].include?(controller_name) %>
-  <div class="flex gap-4">
-    <%= link_to "新規登録", accounts_path(tab: "signup"),
-          class: "px-6 h-10 flex items-center justify-center rounded-md border border-black bg-white text-black font-medium hover:bg-gray-100 transition-colors" %>
-
-    <%= link_to "ログイン", accounts_path(tab: "login"),
-          class: "px-6 h-10 flex items-center justify-center rounded-md bg-black text-white font-medium hover:bg-gray-800 transition-colors" %>
   </div>
+  <% else %>
   <% end %>
 </header>
