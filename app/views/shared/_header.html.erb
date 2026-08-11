@@ -1,13 +1,41 @@
 <header class="flex justify-between px-[50px] py-6 border-b border-gray-200">
   <%= link_to "Pencase", root_path, class: "font-noto-serif text-[40px]" %>
-  <% if !user_signed_in? && controller_name != "registrations" %>
+  <% if !user_signed_in? && controller_name != "registrations" && controller_name != "sessions" %>
   <div class="flex items-center justify-between">
     <div class="flex items-center gap-5">
       <%= link_to "新規登録", new_user_registration_path, class: "sign-up-btn" %>
-      <%= link_to "ログイン", user_session_path , class: "sign-in-btn" %> </div>
-  </div>
+      <%= link_to "ログイン", user_session_path , class: "sign-in-btn" %>
+    </div>
   </div>
   <% else %>
+  <% if user_signed_in? %>
+  <% if current_user.avatar&.attached? %>
+  <%= image_tag current_user.avatar, width: 45, height: 45,
+    data: {
+      action: "click->dropdown#open"
+    }
+    %>
+  <% else %>
+  <div class="flex items-center gap-8">
+    <%= link_to "筆箱一覧", pencil_cases_path, class: "text-[18px] text-gray-600 hover:text-gray-400 transition-colors duration-150" %>
+    <%= link_to "投稿する", new_pencil_case_path, class: "text-[18px] text-gray-600 hover:text-gray-400 transition-colors duration-150" %>
+    <div data-controller="dropdown" class="relative flex flex-col items-center justify-center text-center">
+      <%= image_tag "default_avatar.svg", width: 45, height: 45,
+    data: {
+      action: "click->dropdown#open"
+    }
+    %>
+      <div data-dropdown-target="menu" id="dropMenu" class="hidden absolute top-[60px] z-[20] w-[130px] rounded-sm bg-gray-100">
+        <p class="px-1 py-2">
+          <%= current_user.name %>
+        </p>
+        <hr class="border-gray-400 my-1" />
+        <%= link_to "プロフィール", "#", class: "block w-full px-4 py-3 hover:bg-gray-50" %>
+        <%= link_to "ログアウト", destroy_user_session_path, data: { turbo_method: :delete }, class: "block w-full px-4 py-3 hover:bg-gray-50" %>
+      </div>
+    </div>
+    <% end %>
+    <% end %>
+    <% end %>
   </div>
-  <% end %>
 </header>
