@@ -6,7 +6,7 @@ class PencilCasesController < ApplicationController
     @pencil_cases = @q.result
       .order(created_at: :desc)
       .includes(:user, image_attachment: :blob,
-                pencil_case_items: { item: [:brand, :category] })
+                pencil_case_items: { item: [ :brand, :category ] })
 
     @brands     = Brand.order(:name).pluck(:name)
     @categories = Category.order(:name).pluck(:name)
@@ -65,7 +65,6 @@ class PencilCasesController < ApplicationController
 
   def create_items
     @pencil_case.pencil_case_items.each do |pencil_case_item|
-
       next if pencil_case_item.item_id.present?
 
       brand = Brand.find_or_create_by!(

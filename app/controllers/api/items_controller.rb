@@ -12,7 +12,7 @@ class Api::ItemsController < ApplicationController
                     name:          item.name,
                     brand_name:    item.brand&.name,
                     category_id:   item.category_id,
-                    category_name: item.category&.name,
+                    category_name: item.category&.name
                   }
                 end
 
@@ -41,7 +41,7 @@ class Api::ItemsController < ApplicationController
       name:          item.name,
       brand_name:    item.brand&.name,
       category_id:   item.category_id,
-      category_name: item.category&.name,
+      category_name: item.category&.name
     }
 
   rescue ActiveRecord::RecordInvalid => e
