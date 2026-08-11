@@ -1,9 +1,11 @@
-<header class="px-[50px] py-6">
-  <% if !user_signed_in? %>
+<header class="flex justify-between px-[50px] py-6 border-b border-gray-200">
+  <%= link_to "Pencase", root_path, class: "font-noto-serif text-[40px]" %>
+  <% if !user_signed_in? && controller_name != "registrations" %>
   <div class="flex items-center justify-between">
-    <%= link_to "Pencase", root_path, class: "font-noto-serif text-[40px]" %>
     <div class="flex items-center gap-5">
-      <%= link_to "新規登録", new_user_session_path, class: "sign-up-btn" %> <%= link_to "ログイン", "#", class: "sign-in-btn" %> </div>
+      <%= link_to "新規登録", new_user_registration_path, class: "sign-up-btn" %>
+      <%= link_to "ログイン", user_session_path , class: "sign-in-btn" %> </div>
+  </div>
   </div>
   <% else %>
   <% end %>

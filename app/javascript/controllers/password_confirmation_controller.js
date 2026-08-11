@@ -1,23 +1,27 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["password", "confirmation", "message"]
+  static targets = [
+    "input",
+    "checkText"
+  ]
 
   check() {
-    const password     = this.passwordTarget.value
-    const confirmation = this.confirmationTarget.value
+    const passwordValue = document.getElementById('password').value;
+    const confirmationValue = this.inputTarget.value
 
-    if (confirmation === "") {
-      this.setMessage("", "#9ca3af")
-    } else if (password === confirmation) {
-      this.setMessage("✓ パスワードが一致しています", "#16a34a")
-    } else {
-      this.setMessage("パスワードが一致していません", "#ef4444")
+    if (!confirmationValue) {
+      return;
     }
-  }
 
-  setMessage(text, color) {
-    this.messageTarget.textContent = text
-    this.messageTarget.style.color = color
+    if (passwordValue === confirmationValue) {
+      this.checkTextTarget.textContent = "パスワードが一致しています"
+      this.checkTextTarget.classList.remove('text-red-500')
+      this.checkTextTarget.classList.add('text-green-600')
+    } else {
+      this.checkTextTarget.classList.remove('text-green-600')
+      this.checkTextTarget.classList.add('text-red-500')
+      this.checkTextTarget.textContent = "パスワードが一致していません"
+    }
   }
 }

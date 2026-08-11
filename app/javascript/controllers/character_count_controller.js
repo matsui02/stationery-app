@@ -1,26 +1,26 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["input", "count"]
-  static values  = { max: Number }
+  static targets = [
+    "input",
+    "count"
+  ]
 
-  connect() {
-    this.update()
+  static values = {
+    max: Number
   }
 
   update() {
-    const current = this.inputTarget.value.length
-    const max     = this.maxValue
+    const current = this.inputTarget.value.length;
+    this.countTarget.innerHTML = `${current} / ${this.maxValue}文字以上`
 
-    this.countTarget.textContent = `${current} / ${max}`
+    const isValid = current >= this.maxValue
 
-    // 上限に近づいたら色を変える
-    if (current >= max) {
-      this.countTarget.style.color = "#ef4444"
-    } else if (current >= max * 0.8) {
-      this.countTarget.style.color = "#f59e0b"
+    if (isValid) {
+      document.getElementById('countTarget').classList.remove('text-red-500');
+      this.countTarget.classList.add('text-green-600')
     } else {
-      this.countTarget.style.color = "#9ca3af"
+      document.getElementById('countTarget').classList.add('text-red-500')
     }
   }
 }
