@@ -1,3 +1,11 @@
+<div class="relative w-full <%= height %>">
+  <%= image_tag 'top/top-hero.png', class: "object-cover h-full" %>
+  <div class="absolute top-0 bottom-0 w-full h-full bg-black opacity-[0.1]"></div>
+  <p class="absolute top-[50%] translate-y-[-50%] left-[50px] font-noto-serif text-white text-[40px] font-semibold">
+    自分の筆箱を投稿して<br>
+    お気に入りの文房具を見つけよう
+  </p>
+</div>
 <section class="relative <%= local_assigns[:hero_height] || "h-[500px]" %>">
   <%= image_tag "top/top-hero.png",
       class: "w-full h-full object-cover",
