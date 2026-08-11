@@ -13,7 +13,7 @@ gem "devise"
 
 gem "mini_magick"
 
-gem 'ransack'
+gem "ransack"
 
 # Bundle and transpile JavaScript [https://github.com/rails/jsbundling-rails]
 gem "jsbundling-rails"
