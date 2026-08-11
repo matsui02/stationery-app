@@ -14,6 +14,15 @@ class PencilCase < ApplicationRecord
 
   before_validation :set_default_title
 
+  # Ransackで検索を許可するカラム
+  def self.ransackable_attributes(auth_object = nil)
+    %w[title concept created_at]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    %w[user pencil_case_items]
+  end
+
   private
 
   def set_default_title

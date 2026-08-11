@@ -1,3 +1,75 @@
 <%= render "shared/back_link",
       path:  root_path,
       label: "トップ" %>
+
+<div class="px-[50px] py-8">
+
+  <% active_filter_count = [
+    params.dig(:q, :title_or_concept_cont),
+    params.dig(:q, :pencil_case_items_item_brand_name_cont),
+    params.dig(:q, :pencil_case_items_item_name_cont),
+    params.dig(:q, :pencil_case_items_item_category_name_eq),
+    params.dig(:q, :user_name_cont),
+    params.dig(:q, :created_at_gteq),
+    params.dig(:q, :created_at_lteq)
+  ].compact_blank.count %>
+
+  <%# ヘッダー %>
+  <div class="mb-8">
+
+    <%# 検索バー + ドロワーを relative で包む %>
+    <div class="flex justify-center">
+      <div class="relative" data-controller="drawer">
+
+        <%# 検索フォーム %>
+        <%= render "search_form",
+              active_filter_count: active_filter_count %>
+
+        <%# ドロワー（ボタンの真下に絶対配置） %>
+        <div data-drawer-target="panel" class="hidden absolute top-full left-1/2
+                    -translate-x-1/2 mt-2 z-30 w-80">
+          <%= render "filter_drawer",
+                active_filter_count: active_filter_count %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%# 件数 %>
+  <div class="flex items-center justify-between mb-5">
+    <p class="text-xs text-gray-400 tracking-wide">
+      <% if active_filter_count > 0 %>
+      <%= @pencil_cases.count %>件
+      <span class="text-gray-300 mx-1">·</span>
+      <%= active_filter_count %>件のフィルター適用中
+      <% else %>
+      全 <%= @pencil_cases.count %>件
+      <% end %>
+    </p>
+    <% if active_filter_count > 0 %>
+    <%= link_to "× リセット", pencil_cases_path,
+            class: "text-xs text-gray-400 hover:text-gray-600
+                    transition-colors duration-150" %>
+    <% end %>
+  </div>
+
+  <%# 投稿一覧 %>
+  <% if @pencil_cases.present? %>
+  <div class="grid grid-cols-4 gap-x-5 gap-y-8">
+    <% @pencil_cases.each do |pencil_case| %>
+    <%= render "pencil_case_card", pencil_case: pencil_case %>
+    <% end %>
+  </div>
+  <% else %>
+  <div class="flex flex-col items-center justify-center py-24">
+    <p class="text-sm text-gray-400 tracking-wide mb-4">
+      投稿が見つかりませんでした
+    </p>
+    <%= link_to "リセット", pencil_cases_path,
+            class: "text-xs border border-black px-4 py-2
+                    rounded hover:bg-black hover:text-white
+                    transition-colors duration-150" %>
+  </div>
+  <% end %>
+
+</div>

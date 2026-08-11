@@ -1,4 +1,3 @@
-# app/controllers/api/items_controller.rb
 class Api::ItemsController < ApplicationController
   def search
     query = params[:q].to_s.strip
@@ -13,8 +12,7 @@ class Api::ItemsController < ApplicationController
                     name:          item.name,
                     brand_name:    item.brand&.name,
                     category_id:   item.category_id,
-                    category_name: item.category&.name,
-                    price:         item.price
+                    category_name: item.category&.name
                   }
                 end
 
@@ -36,18 +34,16 @@ class Api::ItemsController < ApplicationController
       name:     params[:name],
       brand:    brand,
       category: category
-    ) do |i|
-      i.price = params[:price].presence
-    end
+    )
 
     render json: {
       id:            item.id,
       name:          item.name,
       brand_name:    item.brand&.name,
       category_id:   item.category_id,
-      category_name: item.category&.name,
-      price:         item.price
+      category_name: item.category&.name
     }
+
   rescue ActiveRecord::RecordInvalid => e
     render json: { error: e.message }, status: :unprocessable_entity
   end

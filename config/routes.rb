@@ -4,8 +4,8 @@ Rails.application.routes.draw do
   registrations: "users/registrations",
   sessions: "users/sessions"
   }
-  get '/accounts', to: 'accounts#show', as: :accounts
-  resources :pencil_cases
+  get "/accounts", to: "accounts#show", as: :accounts
+  resources :pencil_cases, only: [ :index, :show, :new, :create, :edit, :update, :destroy ]
   namespace :api do
     get "items/search", to: "items#search"
     post "items",        to: "items#create"

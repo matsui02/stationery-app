@@ -5,3 +5,24 @@
 @theme {
   --font-noto-serif: "Noto Serif JP", serif;
 }
+
+@theme {
+  --animate-category-bar-grow: category-bar-grow 1s
+    cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@layer components {
+  .btn {
+    @apply text-[20px] bg-black text-white rounded-sm px-6 py-2.5 hover:bg-gray-700 transition-colors duration-150
+  }
+}
+
+@keyframes category-bar-grow {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}

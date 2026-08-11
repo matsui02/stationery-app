@@ -10,10 +10,6 @@
 
   <!-- 新規登録フォーム -->
   <div data-tabs-target="panel" class="tab-content w-full max-w-sm mx-auto mt-6" id="tab-register">
-
-    <%# エラーをローカル変数に格納しておく %>
-    <% register_errors = flash[:register_errors]&.transform_keys(&:to_sym) || {} %>
-
     <%= form_with model: @register_resource, url: user_registration_path,
         method: :post, html: { novalidate: true } do |f| %>
 
@@ -28,7 +24,7 @@
                     text-gray-900 placeholder-gray-300 bg-white
                     transition-all duration-150 focus:outline-none
                     focus:ring-2 focus:ring-gray-100
-                    #{register_errors[:name].present? ?
+                    #{@register_resource.errors[:name].any? ?
                       'border-red-400 focus:border-red-400' :
                       'border-gray-200 focus:border-gray-400'}" %>
       <% if @register_resource.errors[:name].any? %>
@@ -51,7 +47,7 @@
                     text-gray-900 placeholder-gray-300 bg-white
                     transition-all duration-150 focus:outline-none
                     focus:ring-2 focus:ring-gray-100
-                    #{register_errors[:email].present? ?
+                    #{@register_resource.errors[:email].any? ?
                       'border-red-400 focus:border-red-400' :
                       'border-gray-200 focus:border-gray-400'}" %>
       <% if @register_resource.errors[:email].any? %>
@@ -85,7 +81,7 @@
                             bg-white transition-all duration-150
                             focus:outline-none focus:ring-2
                             focus:ring-gray-100
-                            #{register_errors[:password].present? ?
+                            #{@register_resource.errors[:password].any? ?
                               'border-red-400 focus:border-red-400' :
                               'border-gray-200 focus:border-gray-400'}" %>
               <button type="button" data-action="password-visibility#toggle" class="absolute right-3 top-1/2 -translate-y-1/2
@@ -129,7 +125,7 @@
                       text-gray-900 placeholder-gray-300 bg-white
                       transition-all duration-150 focus:outline-none
                       focus:ring-2 focus:ring-gray-100
-                      #{register_errors[:password_confirmation].present? ?
+                      #{@register_resource.errors[:password_confirmation].any? ?
                         'border-red-400 focus:border-red-400' :
                         'border-gray-200 focus:border-gray-400'}" %>
         <p data-password-confirmation-target="message" class="text-xs mt-1"></p>
@@ -179,11 +175,15 @@
             focus:border-gray-400 focus:ring-2 focus:ring-gray-100
             focus:outline-none" %>
     </div>
-    <div>
+    <div data-controller="password-strength">
       <%= f.label :password, "パスワード (必須)",
     class: "block text-xs font-medium text-gray-500 tracking-wide mt-4 mb-2" %>
 
       <%= f.password_field :password,
+      data: {
+      password_strength_target: "input",
+      action: "input->password-strength#update"
+    },
     autocomplete: "current-password",
     placeholder: "パスワードを入力",
     class: "w-full h-11 border border-gray-200 rounded-md
@@ -193,6 +193,9 @@
             transition-all duration-150
             focus:border-gray-400 focus:ring-2 focus:ring-gray-100
             focus:outline-none" %>
+      <p data-password-strength-target="message" class="text-xs text-gray-500 mt-1">
+        0 / 8文字
+      </p>
     </div>
     <div class="flex items-center mt-4">
       <%= f.check_box :remember_me,
