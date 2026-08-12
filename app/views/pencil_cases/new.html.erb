@@ -1,210 +1,31 @@
-<%= render "shared/back_link",
-      path:  pencil_cases_path,
-      label: "投稿一覧" %>
+<%= render "shared/tabs", wrapper_class: "w-full max-w-xl mx-auto",
+tabs: [
+ { label: "筆箱紹介", class: "flex-1" },
+ { label: "お気に入りの1本", class: "flex-1" }
+] %>
 
-<%= render "shared/tabs",
-      tabs: [
-        { label: "筆箱紹介", class: "flex-1 text-center" },
-        { label: "お気に入りの1本", class: "flex-1 text-center" },
-      ],
-      wrapper_class: "w-full max-w-xl mx-auto" %>
-
-<div data-controller="tabs">
-
-  <%# ===== 筆箱紹介フォーム ===== %>
-  <div data-tabs-target="panel" class="w-full max-w-xl mx-auto mt-[40px]">
-
-    <%= form_with model: @pencil_case,
-          url: pencil_cases_path,
-          method: :post,
-          html: {
-            multipart: true,
-            novalidate: true
-          } do |f| %>
-
-    <%# タイトル（任意） %>
-    <div class="mb-4">
-      <%= f.label :title, "タイトル",
-        class: "block text-xs font-medium text-gray-500
-                tracking-wide mb-2" %>
-      <div data-controller="character-count" data-character-count-max-value="50">
-        <%= f.text_field :title,
-          placeholder: "未入力の場合は自動生成されます",
-          maxlength: 50,
-          data: {
-            character_count_target: "input",
-            action: "input->character-count#update"
-          },
-          class: "w-full h-11 border border-gray-200 rounded-md
-                  px-4 text-sm text-gray-900 placeholder-gray-300
-                  bg-white transition-all duration-150
-                  focus:border-gray-400 focus:ring-2
-                  focus:ring-gray-100 focus:outline-none" %>
-        <%# カウントを入力欄の下に移動 %>
-        <div class="flex justify-end mt-1">
-          <span data-character-count-target="count" class="text-xs text-gray-400">
-            0 / 50
-          </span>
-        </div>
-      </div>
-    </div>
-
-    <%# 画像アップロード %>
-    <div class="mb-4" data-controller="image-preview">
-      <div class="relative border border-dashed border-gray-300 rounded-md
-              h-40 flex flex-col items-center justify-center
-              cursor-pointer hover:border-gray-500
-              transition-colors duration-150 overflow-hidden" data-action="click->image-preview#open">
-
-        <%# プレビュー画像 %>
-        <img data-image-preview-target="preview" class="hidden absolute inset-0 w-full h-full object-cover" />
-
-        <%# 初期表示 %>
-        <div data-image-preview-target="placeholder" class="flex flex-col items-center justify-center">
-          <svg class="w-8 h-8 text-gray-300 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 16.5v2.25A2.25
-              2.25 0 005.25 21h13.5
-              A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5
-              4.5M12 3v13.5" />
-          </svg>
-          <p class="text-xs text-gray-400">
-            クリックして画像を選択
-          </p>
-          <p class="text-xs text-gray-300 mt-1">
-            jpeg / jpg / png / webp
-          </p>
-        </div>
-      </div>
-
-      <%= f.file_field :image,
-      id: "pencil-image",
-      accept: "image/*",
-      class: "hidden",
-      data: {
-        image_preview_target: "input",
-        action: "change->image-preview#preview"
-      } %>
-      <% @pencil_case.errors[:image].each do |message| %>
-      <p class="mt-1.5 text-xs text-red-500 tracking-wide">
-        ・画像<%= message %>
-      </p>
-      <% end %>
-    </div>
-
-    <%# 収納アイテム %>
-    <div class="mb-4" data-controller="pencil-case-form">
-      <p class="text-xs font-medium text-gray-500 tracking-wide mb-2">
-        収納アイテム
-      </p>
-
-      <div id="pencil-case-items">
-        <%= f.fields_for :pencil_case_items do |item_f| %>
-        <%= render "item_fields", f: item_f, categories: @categories %>
-        <% end %>
-      </div>
-
-      <button type="button" data-action="click->pencil-case-form#addItem" class="mt-2 text-xs text-gray-500 border border-gray-200
-                 rounded px-3 py-2 hover:border-gray-400
-                 transition-colors duration-150">
-        + アイテムを追加
-      </button>
-      <% @pencil_case.errors[:pencil_case_items].each do |message| %>
-      <p class="mt-1.5 text-xs text-red-500 tracking-wide">
-        ・<%= message %>
-      </p>
-      <% end %>
-    </div>
-
-    <%# コンセプト欄 %>
-    <div class="mb-6" data-controller="character-count" data-character-count-max-value="500">
-      <%= f.label :concept, "コンセプト",
-        class: "block text-xs font-medium text-gray-500
-                tracking-wide mb-2" %>
-      <%= f.text_area :concept,
-        placeholder: "筆箱のこだわりや使い方を教えてください",
-        rows: 4,
-        maxlength: 500,
-        data: {
-          character_count_target: "input",
-          action: "input->character-count#update"
-        },
-        class: "w-full border border-gray-200 rounded-md px-4
-                py-3 text-sm text-gray-900 placeholder-gray-300
-                bg-white transition-all duration-150
-                focus:border-gray-400 focus:ring-2
-                focus:ring-gray-100 focus:outline-none
-                resize-none" %>
-      <div class="flex justify-end mt-1">
-        <span data-character-count-target="count" class="text-xs text-gray-400">
-          0 / 500
-        </span>
-      </div>
-    </div>
-
-    <%= f.submit "投稿する",
-            class: "w-full h-11 bg-black text-white text-sm
-                    tracking-widest rounded-sm cursor-pointer
-                    transition-colors duration-200 hover:bg-gray-800" %>
-    <% end %>
-  </div>
-
-  <%# ===== お気に入りの1本フォーム ===== %>
-  <div data-tabs-target="panel" class="w-full max-w-2xl mx-auto mt-6 hidden">
-
-  </div>
+<%= form_with class: "w-full max-w-xl mx-auto mt-[40px]" ,model: @pencil_case do |f| %>
+<div class="flex flex-col gap-3">
+  <%= f.label :title, "タイトル", class: "text-md text-gray-500" %>
+  <%= f.text_field :title, class: "w-full h-9 px-2 py-1 rounded-sm border border-gray-400 focus:border-gray-600 focus:ring-1 focus:ring-gray-300 outline-none placeholder:text-sm placeholder-gray-400 transition-colors duration-150", placeholder: "筆箱のタイトルを入力（50文字以内）" %>
+  <span class="block text-right text-sm text-gray-400">0 / 50</span>
 </div>
-
-<template id="item-template">
-  <div class="grid grid-cols-12 gap-2 mb-3 items-center pencil-case-item" data-controller="item-search item-status">
-
-    <%# ステータスインジケーター %>
-    <div class="col-span-1 flex justify-center">
-      <span data-item-status-target="indicator" class="w-4 h-4 rounded-full border border-gray-300
-                   bg-white flex items-center justify-center
-                   transition-all duration-300">
-        <svg data-item-status-target="check" class="hidden w-2.5 h-2.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
-        </svg>
-      </span>
-    </div>
-
-    <div class="col-span-4 relative">
-      <input type="text" data-item-search-target="input" data-item-status-target="input" data-action="input->item-search#search
-                          input->item-status#update" name="pencil_case[pencil_case_items_attributes][NEW_INDEX][new_item_name]" placeholder="商品名で検索または入力" autocomplete="off" class="w-full h-9 border border-gray-200 rounded px-2.5
-                    text-xs text-gray-900 placeholder-gray-300
-                    focus:border-gray-400 focus:outline-none">
-      <div data-item-search-target="suggestions" class="hidden absolute z-20 w-full bg-white border
-                  border-gray-200 rounded-md shadow-lg mt-1
-                  max-h-48 overflow-y-auto">
-      </div>
-      <input type="hidden" data-item-search-target="itemIdInput" name="pencil_case[pencil_case_items_attributes][NEW_INDEX][item_id]">
-    </div>
-
-    <%# ブランド：2列 %>
-    <div class="col-span-3">
-      <input type="text" data-item-search-target="brandInput" data-item-status-target="brandInput" data-action="input->item-status#update" name="pencil_case[pencil_case_items_attributes][NEW_INDEX][new_brand_name]" placeholder="ブランド" autocomplete="off" class="w-full h-9 border border-gray-200 rounded px-2.5
-                    text-xs text-gray-900 placeholder-gray-300
-                    focus:border-gray-400 focus:outline-none">
-    </div>
-
-    <%# カテゴリ：3列 %>
-    <div class="col-span-3">
-      <select data-item-search-target="categorySelect" data-item-status-target="categorySelect" data-action="change->item-status#update" name="pencil_case[pencil_case_items_attributes][NEW_INDEX][new_category_id]" class="w-full h-9 border border-gray-200 rounded px-2
-                     text-xs text-gray-900 bg-white
-                     focus:border-gray-400 focus:outline-none">
-        <option value="">カテゴリを選択</option>
-        <% @categories.each do |cat| %>
-        <option value="<%= cat.id %>"><%= cat.name %></option>
-        <% end %>
-      </select>
-    </div>
-
-    <%# 削除ボタン：2列 %>
-    <div class="col-span-1 flex justify-center">
-      <button type="button" onclick="this.closest('.pencil-case-item').remove()" class="text-gray-300 hover:text-red-400
-                     transition-colors duration-150 text-lg leading-none">
-        ✕
-      </button>
-    </div>
+<div class="flex items-center justify-center mt-6 w-full h-40 border border-dashed border-gray-500 rounded-sm hover:border-black">
+  <div class="flex flex-col items-center gap-2">
+    <%= image_tag "image_upload.svg", class: "w-6 h-6 text-gray-300" %>
+    <label for="image-upload" class="text-sm text-gray-400">
+      筆箱の画像を選択
+    </label>
   </div>
-</template>
+  <%= f.file_field :image, class: "hidden", id: "image-upload" %>
+</div>
+<%= f.fields_for :pencil_case_items do |item_form| %>
+<%= render "item_fields", f: item_form %>
+<% end %>
+<div class="flex flex-col gap-3 mt-6">
+  <%= f.label :concept, "コンセプト", class: "text-md text-gray-500" %>
+  <%= f.text_area :concept, class: "w-full h-40 px-4 py-2 border border-gray-400 rounded-sm focus:border-gray-600 focus:ring-1 focus:ring-gray-300 outline-none placeholder:text-sm placeholder-gray-400 transition-colors duration-150" %>
+  <span class="block text-right text-sm text-gray-400">0 / 500</span>
+</div>
+<%= f.submit "投稿する", class: "w-full px-4 py-3 bg-black text-white mt-4 hover:bg-gray-800 transition-colors duration-150" %>
+<% end %>

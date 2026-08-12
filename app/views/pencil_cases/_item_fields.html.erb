@@ -1,52 +1,22 @@
-<div class="grid grid-cols-12 gap-2 mb-3 items-center pencil-case-item" data-controller="item-search item-status" data-action="item-search:selected->item-status#update">
-
-  <div class="col-span-1 flex justify-center">
-    <span data-item-status-target="indicator" class="w-4 h-4 rounded-full border border-gray-300
-               flex items-center justify-center
-               transition-all duration-300">
-      <svg data-item-status-target="check" class="hidden w-2.5 h-2.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
-      </svg>
-    </span>
+<div class="grid grid-cols-12 gap-4 mt-5">
+  <div class="col-span-1 flex items-end justify-center">
+    <span class="block w-7 h-7 border border-gray-400 rounded-full"></span>
   </div>
-
-  <div class="col-span-4 relative">
-    <input type="text" data-item-search-target="input" data-item-status-target="input" data-action="input->item-search#search input->item-status#update" name="pencil_case[pencil_case_items_attributes][<%= f.index %>][new_item_name]" value="<%= f.object.new_item_name %>" placeholder="商品名で検索または入力" autocomplete="off" class="w-full h-9 border border-gray-200 rounded px-3
-    text-xs text-gray-900 placeholder-gray-300
-    focus:border-gray-400 focus:outline-none">
-    <div data-item-search-target="suggestions" class="hidden absolute z-20 w-full bg-white border
-                border-gray-200 rounded-md shadow-lg mt-1
-                max-h-48 overflow-y-auto">
-    </div>
-    <input type="hidden" data-item-search-target="itemIdInput" name="pencil_case[pencil_case_items_attributes][<%= f.index %>][item_id]">
+  <div class="col-span-4 flex flex-col">
+    <%= f.label :new_item_name, "商品名", class: "text-sm text-gray-400 mb-1" %>
+    <%= f.text_field :new_item_name, placeholder: "商品名で検索または入力", class: "px-2 py-1 border border-gray-400 rounded-sm placeholder:text-[14px] outline-none focus:border-black focus:ring-1 focus:ring-gray-300" %>
   </div>
-
-  <%# ブランド %>
-  <div class="col-span-3">
-    <input type="text" data-action="input->item-status#update" data-item-search-target="brandInput" data-item-status-target="brandInput" name="pencil_case[pencil_case_items_attributes][<%= f.index %>][new_brand_name]" placeholder="ブランド" autocomplete="off" value="<%= f.object.new_brand_name %>" class="w-full h-9 border border-gray-200 rounded px-3
-                  text-xs text-gray-900 placeholder-gray-300
-                  focus:border-gray-400 focus:outline-none">
+  <div class="col-span-3 flex flex-col">
+    <%= f.label :new_brand_name, "ブランド", class: "text-sm text-gray-400 mb-1" %>
+    <%= f.text_field :new_brand_name, placeholder: "ブランド", class: "px-2 py-1 border border-gray-400 rounded-sm placeholder:text-[14px] outline-none focus:border-black focus:ring-1 focus:ring-gray-300" %>
   </div>
-
-  <%# カテゴリ %>
-  <div class="col-span-3">
-    <select data-action="input->item-status#update" data-item-search-target="categorySelect" data-item-status-target="categorySelect" name="pencil_case[pencil_case_items_attributes][<%= f.index %>][new_category_id]" class="w-full h-9 border border-gray-200 rounded px-2
-                   text-xs text-gray-900 bg-white
-                   focus:border-gray-400 focus:outline-none">
-      <option value="">カテゴリを選択</option>
-      <% categories.each do |cat| %>
-      <option value="<%= cat.id %>" <%= "selected" if f.object.new_category_id.to_s == cat.id.to_s %>>
-        <%= cat.name %>
-      </option>
-      <% end %>
-    </select>
+  <div class="col-span-4 flex flex-col">
+    <%= f.label :new_category_id, "カテゴリ", class: "text-sm text-gray-400 mb-1" %>
+    <%= f.text_field :new_category_id, placeholder: "カテゴリ", class: "px-2 py-1 border border-gray-400 rounded-sm placeholder:text-[14px] outline-none focus:border-black focus:ring-1 focus:ring-gray-300" %>
   </div>
-
-  <%# 削除ボタン %>
-  <div class="col-span-1 flex justify-center">
-    <button type="button" onclick="this.closest('.pencil-case-item').remove()" class="text-gray-300 hover:text-red-400
-                   transition-colors duration-150 text-lg leading-none">
-      ✕
-    </button>
-  </div>
+</div>
+<div class="w-fit px-3 py-1 mt-5 text-sm text-gray-500 border border-gray-400">
+  <button type="button">
+    アイテムを追加
+  </button>
 </div>

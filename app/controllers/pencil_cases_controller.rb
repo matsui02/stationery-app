@@ -16,12 +16,8 @@ class PencilCasesController < ApplicationController
   end
 
   def new
-    @pencil_case = PencilCase.new
+    @pencil_case = current_user.pencil_cases.build
     @pencil_case.pencil_case_items.build
-
-    @brands     = Brand.order(:name).pluck(:name)
-    @categories = Category.order(:name).all
-    @item_names = Item.order(:name).pluck(:name)
   end
 
   def create
