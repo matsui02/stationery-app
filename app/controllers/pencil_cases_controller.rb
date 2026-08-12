@@ -18,6 +18,7 @@ class PencilCasesController < ApplicationController
   def new
     @pencil_case = current_user.pencil_cases.build
     @pencil_case.pencil_case_items.build
+    @categories = Category.all
   end
 
   def create

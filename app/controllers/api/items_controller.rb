@@ -41,7 +41,9 @@ class Api::ItemsController < ApplicationController
       name:          item.name,
       brand_name:    item.brand&.name,
       category_id:   item.category_id,
-      category_name: item.category&.name
+      category_name: item.category&.name,
+      success: true,
+      message: "アイテムを保存しました"
     }
 
   rescue ActiveRecord::RecordInvalid => e
@@ -58,7 +60,7 @@ class Api::ItemsController < ApplicationController
     end
 
     item.destroy
-    render json: { success: true }
+    render json: { success: true, message: "アイテムを削除しました" }
   rescue ActiveRecord::RecordNotFound
     render json: { error: "アイテムが見つかりませんでした" },
            status: :not_found
