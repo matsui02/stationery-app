@@ -7,6 +7,7 @@ export default class extends Controller {
     "category",
     "results",
     "flash",
+    "template",
   ]
 
   static values = {
@@ -24,7 +25,6 @@ export default class extends Controller {
 
     if (query === "") {
       this.resultsTarget.classList.add("hidden");
-      this.resultsTarget.innerHTML = "";
       return;
     }
 
@@ -222,5 +222,17 @@ export default class extends Controller {
     }
 
     this.hideResults();
+  }
+
+  addItem() {
+    const index = Date.now();
+
+    const container = document.getElementById('container');
+    const template = this.templateTarget.content.firstElementChild
+    const newElement = template.cloneNode(true);
+    newElement.querySelectorAll("[name]").forEach((element) => {
+      element.name = element.name.replace(/NEW_RECORD/g, index);
+    });
+    container.appendChild(newElement);
   }
 }
