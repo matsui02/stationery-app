@@ -7,8 +7,10 @@ class PencilCase < ApplicationRecord
 
   has_one_attached :image
 
-  validates :title, length: { maximum: 50 }, allow_blank: true
   validates :image, presence: true
+
+  validates :title, length: { maximum: 50 }, allow_blank: true
+  validates :concept, length: { maximum: 500 }, allow_blank: true
 
   validate :must_have_item
 
