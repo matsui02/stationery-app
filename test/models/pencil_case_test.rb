@@ -15,9 +15,9 @@ class PencilCaseTest < ActiveSupport::TestCase
     )
 
     pencil_case.image.attach(
-    io: File.open(Rails.root.join("test/fixtures/files/test_pencil_case.png")),
-    filename: "test_pencil_case.png",
-    content_type: "image/png"
+      io: File.open(Rails.root.join("test/fixtures/files/test_pencil_case.png")),
+      filename: "test_pencil_case.png",
+      content_type: "image/png"
     )
 
     brand = Brand.create!(name: "ペンてる")
@@ -26,7 +26,7 @@ class PencilCaseTest < ActiveSupport::TestCase
     item = Item.create!(
       name: "スマッシュ",
       brand: brand,
-      category:category,
+      category: category,
     )
 
     pencil_case.pencil_case_items.build(item: item)
@@ -48,9 +48,9 @@ class PencilCaseTest < ActiveSupport::TestCase
     )
 
     pencil_case.image.attach(
-    io: File.open(Rails.root.join("test/fixtures/files/test_pencil_case.png")),
-    filename: "test_pencil_case.png",
-    content_type: "image/png"
+      io: File.open(Rails.root.join("test/fixtures/files/test_pencil_case.png")),
+      filename: "test_pencil_case.png",
+      content_type: "image/png"
     )
 
     brand = Brand.create!(name: "ペンてる")
@@ -59,7 +59,7 @@ class PencilCaseTest < ActiveSupport::TestCase
     item = Item.create!(
       name: "スマッシュ",
       brand: brand,
-      category:category,
+      category: category,
     )
 
     pencil_case.pencil_case_items.build(item: item)
@@ -81,9 +81,9 @@ class PencilCaseTest < ActiveSupport::TestCase
     )
 
     pencil_case.image.attach(
-    io: File.open(Rails.root.join("test/fixtures/files/test_pencil_case.png")),
-    filename: "test_pencil_case.png",
-    content_type: "image/png"
+      io: File.open(Rails.root.join("test/fixtures/files/test_pencil_case.png")),
+      filename: "test_pencil_case.png",
+      content_type: "image/png"
     )
 
     brand = Brand.create!(name: "ペンてる")
@@ -92,7 +92,7 @@ class PencilCaseTest < ActiveSupport::TestCase
     item = Item.create!(
       name: "スマッシュ",
       brand: brand,
-      category:category,
+      category: category,
     )
 
     pencil_case.pencil_case_items.build(item: item)
@@ -119,7 +119,7 @@ class PencilCaseTest < ActiveSupport::TestCase
     item = Item.create!(
       name: "スマッシュ",
       brand: brand,
-      category:category,
+      category: category,
     )
 
     pencil_case.pencil_case_items.build(item: item)
