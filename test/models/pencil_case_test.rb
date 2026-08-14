@@ -6,14 +6,7 @@ class PencilCaseTest < ActiveSupport::TestCase
 
     pencil_case = build(:pencil_case, user: user)
 
-    brand = create(:brand)
-    category = create(:category)
-
-    item = Item.create!(
-      name: "スマッシュ",
-      brand: brand,
-      category: category,
-    )
+    item = create(:item)
 
     pencil_case.pencil_case_items.build(item: item)
 
@@ -25,14 +18,7 @@ class PencilCaseTest < ActiveSupport::TestCase
 
     pencil_case = build(:pencil_case, title: "あ" * 51, user: user)
 
-    brand = create(:brand)
-    category = create(:category)
-
-    item = Item.create!(
-      name: "スマッシュ",
-      brand: brand,
-      category: category,
-    )
+    item = create(:item)
 
     pencil_case.pencil_case_items.build(item: item)
 
@@ -44,14 +30,7 @@ class PencilCaseTest < ActiveSupport::TestCase
 
     pencil_case = build(:pencil_case, concept: "あ" * 501, user: user)
 
-    brand = create(:brand)
-    category = create(:category)
-
-    item = Item.create!(
-      name: "スマッシュ",
-      brand: brand,
-      category: category,
-    )
+    item = create(:item)
 
     pencil_case.pencil_case_items.build(item: item)
 
@@ -66,14 +45,7 @@ class PencilCaseTest < ActiveSupport::TestCase
     # 画像を未選択の状態にする
     pencil_case.image.detach
 
-    brand = create(:brand)
-    category = create(:category)
-
-    item = Item.create!(
-      name: "スマッシュ",
-      brand: brand,
-      category: category,
-    )
+    item = create(:item)
 
     pencil_case.pencil_case_items.build(item: item)
 
