@@ -6,7 +6,7 @@ class PencilCaseTest < ActiveSupport::TestCase
 
     pencil_case = build(:pencil_case, user: user)
 
-    brand = Brand.create!(name: "ペンてる")
+    brand = create(:brand)
     category = Category.create!(name: "シャーペン")
 
     item = Item.create!(
@@ -25,7 +25,7 @@ class PencilCaseTest < ActiveSupport::TestCase
 
     pencil_case = build(:pencil_case, title: "あ" * 51, user: user)
 
-    brand = Brand.create!(name: "ペンてる")
+    brand = create(:brand)
     category = Category.create!(name: "シャーペン")
 
     item = Item.create!(
@@ -44,7 +44,7 @@ class PencilCaseTest < ActiveSupport::TestCase
 
     pencil_case = build(:pencil_case, concept: "あ" * 501, user: user)
 
-    brand = Brand.create!(name: "ペンてる")
+    brand = create(:brand)
     category = Category.create!(name: "シャーペン")
 
     item = Item.create!(
@@ -66,7 +66,7 @@ class PencilCaseTest < ActiveSupport::TestCase
     # 画像を未選択の状態にする
     pencil_case.image.detach
 
-    brand = Brand.create!(name: "ペンてる")
+    brand = create(:brand)
     category = Category.create!(name: "シャーペン")
 
     item = Item.create!(
