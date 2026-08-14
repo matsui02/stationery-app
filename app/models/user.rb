@@ -12,8 +12,7 @@ class User < ApplicationRecord
   validates_length_of :password, minimum: 8
 
   def self.ransackable_attributes(auth_object = nil)
-    %w[name]
-  end
+    %w[name] end
 
   private
 
