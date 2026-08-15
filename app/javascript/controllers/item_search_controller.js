@@ -268,4 +268,14 @@ export default class extends Controller {
     });
     container.appendChild(newElement);
   }
+
+  removeItem(event) {
+  const row = event.currentTarget.closest(".item-row")
+
+    if (!row) {
+      return
+    }
+
+    row.remove()
+  }
 }
