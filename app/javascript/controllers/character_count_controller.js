@@ -11,16 +11,22 @@ export default class extends Controller {
   }
 
   update() {
-    const current = this.inputTarget.value.length;
-    this.countTarget.innerHTML = `${current} / ${this.maxValue}文字以上`
+    const current = this.inputTarget.value.length
 
-    const isValid = current >= this.maxValue
+    this.countTarget.textContent =
+      `${current} / ${this.maxValue}文字`
 
-    if (isValid) {
-      document.getElementById('countTarget').classList.remove('text-red-500');
-      this.countTarget.classList.add('text-green-600')
+    this.countTarget.classList.remove(
+      "text-red-500",
+      "text-green-600"
+    )
+
+    if (current === 0) {
+      return
+    } else if (current > this.maxValue) {
+      this.countTarget.classList.add("text-red-500")
     } else {
-      document.getElementById('countTarget').classList.add('text-red-500')
+      this.countTarget.classList.add("text-green-600")
     }
   }
 }
