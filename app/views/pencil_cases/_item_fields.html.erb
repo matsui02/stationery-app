@@ -1,42 +1,35 @@
-<div class="grid grid-cols-12 gap-4 mt-5">
-  <div class="col-span-1 flex items-end justify-center">
-    <span class="block w-7 h-7 border border-gray-400 rounded-full"></span>
-  </div>
-  <div class="relative col-span-4 flex flex-col">
-    <%= f.label :new_item_name, "商品名", class: "text-sm text-gray-400 mb-1" %>
-    <%= f.text_field :new_item_name, placeholder: "商品名で検索または入力",
+<div class="item-row">
+  <div class="grid grid-cols-12 gap-4 mt-5">
+    <div class="col-span-1 flex items-end justify-center">
+      <span class="block w-7 h-7 border border-gray-400 rounded-full"></span>
+    </div>
+    <div class="relative col-span-4 flex flex-col">
+      <%= f.label :new_item_name, "商品名", class: "text-sm text-gray-400 mb-1" %>
+      <%= f.text_field :new_item_name, placeholder: "商品名で検索または入力",
+  data: {
+    item_search_target: "input",
+    action: "input->item-search#search",
+    },
+    class: "px-2 py-1 border border-gray-400 rounded-sm text-md text-gray-600 placeholder:text-[14px] outline-none focus:border-black focus:ring-1 focus:ring-gray-300" %>
+      <div data-item-search-target="results" class="absolute top-[65px] w-full px-3 py-3 bg-white hidden border border-gray-500 rounded-sm">
+      </div>
+    </div>
+    <div class="col-span-3 flex flex-col">
+      <%= f.label :new_brand_name, "ブランド", class: "text-sm text-gray-400 mb-1" %>
+      <%= f.text_field :new_brand_name, placeholder: "ブランド", class: "px-2 py-1 border border-gray-400 rounded-sm text-gray-500 placeholder:text-[14px] outline-none focus:border-black focus:ring-1 focus:ring-gray-300",
     data: {
-      item_search_target: "input",
-      action: "input->item-search#search",
-     },
-     class: "px-2 py-1 border border-gray-400 rounded-sm text-md text-gray-600 placeholder:text-[14px] outline-none focus:border-black focus:ring-1 focus:ring-gray-300" %>
-    <div data-item-search-target="results" class="absolute top-[65px] w-full px-3 py-3 bg-white hidden border border-gray-500 rounded-sm">
+      item_search_target: "brand"
+    } %>
+    </div>
+    <div class="col-span-3 flex flex-col">
+      <%= f.label :new_category_id, "カテゴリ", class: "text-sm text-gray-400 mb-1" %>
+      <%= f.select :new_category_id,
+    options_for_select([["カテゴリを選択", ""]] + categories.map{ |category| [category.name, category.name] }),
+    {},
+    class: "px-2 py-1 h-[34px] border border-gray-400 rounded-sm text-[14px] text-gray-500 placeholder:text-[14px] outline-none focus:border-black focus:ring-1 focus:ring-gray-300",
+  data: {
+    item_search_target: "category"
+  } %>
     </div>
   </div>
-  <div class="col-span-3 flex flex-col">
-    <%= f.label :new_brand_name, "ブランド", class: "text-sm text-gray-400 mb-1" %>
-    <%= f.text_field :new_brand_name, placeholder: "ブランド", class: "px-2 py-1 border border-gray-400 rounded-sm text-gray-500 placeholder:text-[14px] outline-none focus:border-black focus:ring-1 focus:ring-gray-300",
-      data: {
-        item_search_target: "brand"
-      } %>
-  </div>
-  <div class="col-span-3 flex flex-col">
-    <%= f.label :new_category_id, "カテゴリ", class: "text-sm text-gray-400 mb-1" %>
-    <%= f.select :new_category_id,
-      options_for_select([["カテゴリを選択", ""]] + categories.map{ |category| [category.name, category.name] }),
-      {},
-      class: "px-2 py-1 h-[34px] border border-gray-400 rounded-sm text-[14px] text-gray-500 placeholder:text-[14px] outline-none focus:border-black focus:ring-1 focus:ring-gray-300",
-    data: {
-      item_search_target: "category"
-    } %>
-  </div>
-</div>
-
-<!-- 表示エリア -->
-<div id="container"></div>
-
-<div class="w-fit px-3 py-1 mt-5 text-sm text-gray-500 border border-gray-400">
-  <button data-action="click->item-search#addItem" type="button">
-    アイテムを追加
-  </button>
 </div>
