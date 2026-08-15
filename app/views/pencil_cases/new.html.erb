@@ -6,7 +6,7 @@
     { label: "お気に入りの1本", class: "flex-1" }
     ] %>
 
-  <%= form_with class: "w-full max-w-xl mx-auto mt-[40px]" ,model: @pencil_case do |f| %>
+  <%= form_with class: "w-full max-w-xl mx-auto mt-[40px]", model: @pencil_case do |f| %>
   <div class="flex flex-col gap-3">
     <%= f.label :title, "タイトル", class: "text-md text-gray-500" %>
     <%= f.text_field :title, class: "w-full h-9 px-2 py-1 rounded-sm border border-gray-400 focus:border-gray-600 focus:ring-1 focus:ring-gray-300 outline-none placeholder:text-sm placeholder-gray-400 transition-colors duration-150", placeholder: "筆箱のタイトルを入力（50文字以内）" %>
@@ -37,6 +37,15 @@
           categories: @categories %>
     <% end %>
   </template>
+
+  <!-- 表示エリア -->
+  <div id="container"></div>
+
+  <div class="w-fit px-3 py-1 mt-5 text-sm text-gray-500 border border-gray-400">
+    <button data-action="click->item-search#addItem" type="button">
+      アイテムを追加
+    </button>
+  </div>
 
   <div class="flex flex-col gap-3 mt-6">
     <%= f.label :concept, "コンセプト", class: "text-md text-gray-500" %>

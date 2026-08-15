@@ -16,36 +16,59 @@ export default class extends Controller {
 
   connect() {
     document.addEventListener('click', (event) => {
-      this.hideMessage(event)
+      this.#hideResultsWhenClickOutside(event)
     })
   }
 
-  async search() {
-    const query = this.inputTarget.value.trim();
+  #hideResultsWhenClickOutside(event) {
+    this.resultsTargets.forEach((results) => {
+      if (!results.contains(event.target)) {
+        results.classList.add("hidden")
+      }
+    })
+  }
+
+  #getResults(element) {
+    const row = element.closest(".item-row")
+    return row.querySelector('[data-item-search-target="results"]')
+  }
+
+  #hideResults(results) {
+    results.classList.add("hidden")
+  }
+
+  cancelCreate(event) {
+    const results = this.#getResults(event.currentTarget)
+    this.#hideResults(results)
+  }
+
+  async search(event) {
+    const input = event.currentTarget
+    const query = input.value.trim()
+    const results = this.#getResults(input)
 
     if (query === "") {
-      this.resultsTarget.classList.add("hidden");
+      results.classList.add("hidden");
       return;
     }
 
     const response = await fetch(`/api/items/search?q=${encodeURIComponent(query)}`);
     const data = await response.json();
-    this.showMessage(data, query);
-    this.hideMessage;
+    this.#showMessage(data, query, results);
   }
 
-  showMessage(data, query) {
+  #showMessage(data, query, results) {
     if (query === "") {
       return
     }
 
-    this.resultsTarget.classList.remove('hidden');
+    results.classList.remove('hidden');
 
     const existingItems = data.map((item) => {
       return `
         <div data-action="click->item-search#select" data-name="${item.name}" data-brand="${item.brand_name}" data-category="${item.category_name}" class="flex items-center justify-between px-2 py-2 border-b cursor-pointer">
           <div>
-            <p data-name="${item.name}" class="text-[14px] text-gray-500">${item.name}</p>
+            <p class="text-[14px] text-gray-500">${item.name}</p>
             <p class="text-[12px] text-gray-500">${item.brand_name}・${item.category_name}</p>
           </div>
           <span data-item-id="${item.id}" data-action="click->item-search#deleteItem" class="text-[20px] text-gray-500 hover:text-red-500 transition-colors duration-150 cursor-pointer">×</span>
@@ -71,32 +94,42 @@ export default class extends Controller {
       </div> `
     }
 
-   this.resultsTarget.innerHTML = emptyMessage + existingItems + createOption()
-  }
-
-  hideMessage(event) {
-    if (!this.resultsTarget.contains(event.target)) {
-      this.resultsTarget.classList.add('hidden');
-    }
-  }
-
-  hideResults() {
-    this.resultsTarget.classList.add("hidden");
+   results.innerHTML = emptyMessage + existingItems + createOption()
   }
 
   select(event) {
-    this.inputTarget.value = event.currentTarget.dataset.name
-    this.brandTarget.value = event.currentTarget.dataset.brand
-    this.categoryTarget.value = event.currentTarget.dataset.category
+    const row = event.currentTarget.closest(".item-row")
 
-    this.hideResults()
+    const input = row.querySelector(
+    '[data-item-search-target="input"]'
+    )
+    const brand = row.querySelector(
+      '[data-item-search-target="brand"]'
+    )
+    const category = row.querySelector(
+      '[data-item-search-target="category"]'
+    )
+    const results = row.querySelector(
+      '[data-item-search-target="results"]'
+    )
+
+    input.value = event.currentTarget.dataset.name
+    brand.value = event.currentTarget.dataset.brand
+    category.value = event.currentTarget.dataset.category
+
+    this.#hideResults(results)
   }
 
   showCreateForm(event) {
-    event.stopPropagation()
-    const query = event.currentTarget.dataset.query
+    event.stopPropagation();
 
-    this.resultsTarget.innerHTML = `
+    const query = event.currentTarget.dataset.query
+    const row = event.currentTarget.closest(".item-row")
+    const results = row.querySelector(
+      '[data-item-search-target="results"]'
+    )
+
+    results.innerHTML = `
       <div class="p-3 space-y-2">
         <p class="text-xs font-medium text-gray-600 mb-2">
           新しいアイテムを登録
@@ -133,7 +166,7 @@ export default class extends Controller {
           保存して追加
         </button>
         <button type="button"
-                data-action="click->item-search#hideResults"
+                data-action="click->item-search#cancelCreate"
                 class="w-full h-8 border border-gray-200 text-gray-500
                        text-xs rounded hover:border-gray-400
                        transition-colors duration-150">
@@ -143,13 +176,12 @@ export default class extends Controller {
     `
   }
 
-  async saveNewItem() {
-    const name = document.getElementById("new-item-name").value;
-    const brandName = document.getElementById("new-item-brand").value;
-    const categoryId = document.getElementById("new-item-category").value;
-    const csrfToken = document.querySelector(
-    'meta[name="csrf-token"]'
-    ).content;
+  async saveNewItem(event) {
+    const row = event.currentTarget.closest(".item-row")
+    const name = row.querySelector("#new-item-name").value
+    const brandName = row.querySelector("#new-item-brand").value
+    const categoryId = row.querySelector("#new-item-category").value
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
 
     const response = await fetch("/api/items", {
       method: "POST",
@@ -164,17 +196,17 @@ export default class extends Controller {
       })
     });
 
-
     const data = await response.json();
 
     if (response.ok) {
-      this.showFlash(data.message, "success");
+      this.#showFlash(data.message, "success");
     }
 
-    this.hideResults();
+    const results = row.querySelector('[data-item-search-target="results"]')
+    this.#hideResults(results)
   }
 
-  showFlash(message, type = "success") {
+  #showFlash(message, type = "success") {
     this.flashTarget.textContent = message;
 
     this.flashTarget.classList.remove(
@@ -197,10 +229,12 @@ export default class extends Controller {
   async deleteItem(event) {
     event.stopPropagation();
     const itemId = event.currentTarget.dataset.itemId
-
-    const csrfToken = document.querySelector(
-    'meta[name="csrf-token"]'
-    ).content;
+    const row = event.currentTarget.closest(".item-row")
+    const input = row.querySelector('[data-item-search-target="input"]')
+    const brand = row.querySelector('[data-item-search-target="brand"]')
+    const category = row.querySelector('[data-item-search-target="category"]')
+    const results = this.#getResults(event.currentTarget)
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
 
     const response = await fetch(`/api/items/${itemId}`, {
       method: "DELETE",
@@ -213,20 +247,19 @@ export default class extends Controller {
     const data = await response.json();
 
     if (response.ok) {
-      this.inputTarget.value = "";
-      this.brandTarget.value = "";
-      this.categoryTarget.value = "";
-      this.showFlash(data.message, "message");
+      input.value = "";
+      brand.value = "";
+      category.value = "";
+      this.#showFlash(data.message, "success");
     } else {
-      this.showFlash(data.error, "error")
+      this.#showFlash(data.error, "error");
     }
 
-    this.hideResults();
+    this.#hideResults(results);
   }
 
   addItem() {
     const index = Date.now();
-
     const container = document.getElementById('container');
     const template = this.templateTarget.content.firstElementChild
     const newElement = template.cloneNode(true);
