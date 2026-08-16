@@ -3,48 +3,47 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = [
     "input",
-    "brandInput",
-    "categorySelect",
-    "indicator",
-    "check"
+    "brand",
+    "category",
+    "indicator"
   ]
 
   connect() {
-    this.update()
+    this.element.addEventListener(
+      "item-status:check",
+      this.#handleCheck
+    )
   }
 
-  update() {
-    const itemName = this.inputTarget.value.trim()
-    const brand    = this.brandInputTarget.value.trim()
-    const category = this.categorySelectTarget.value.trim()
+  disconnect() {
+    this.element.removeEventListener(
+      "item-status:check",
+      this.#handleCheck
+    )
+  }
 
-    const completed =
-      itemName !== "" &&
-      brand    !== "" &&
-      category !== ""
+  #handleCheck = () => {
+    this.check()
+  }
 
-    if (completed) {
-      // 3項目すべて入力済み → 緑・チェックマーク表示
-      this.indicatorTarget.classList.remove(
-        "border-gray-300", "bg-white"
-      )
+  check() {
+    const isComplete =
+      this.inputTarget.value.trim() !== "" &&
+      this.brandTarget.value.trim() !== "" &&
+      this.categoryTarget.value !== ""
+
+    if (isComplete) {
+      this.indicatorTarget.textContent = "✓"
       this.indicatorTarget.classList.add(
-        "border-green-500", "bg-green-500", "scale-110"
+        "bg-black",
+        "text-white"
       )
-      if (this.hasCheckTarget) {
-        this.checkTarget.classList.remove("hidden")
-      }
     } else {
-      // 1つでも未入力 → グレー・チェックマーク非表示
+      this.indicatorTarget.textContent = ""
       this.indicatorTarget.classList.remove(
-        "border-green-500", "bg-green-500", "scale-110"
+        "bg-black",
+        "text-white"
       )
-      this.indicatorTarget.classList.add(
-        "border-gray-300", "bg-white"
-      )
-      if (this.hasCheckTarget) {
-        this.checkTarget.classList.add("hidden")
-      }
     }
   }
 }

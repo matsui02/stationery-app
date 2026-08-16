@@ -1,14 +1,15 @@
-<div class="item-row">
+<div class="item-row" data-controller="item-status">
   <div class="grid grid-cols-12 gap-4 mt-5">
     <div class="col-span-1 flex items-end justify-center">
-      <span class="block w-7 h-7 border border-gray-400 rounded-full"></span>
+      <span data-item-status-target="indicator" class="flex items-center justify-center w-7 h-7 border border-gray-400 rounded-full"></span>
     </div>
     <div class="relative col-span-4 flex flex-col">
       <%= f.label :new_item_name, "商品名", class: "text-sm text-gray-400 mb-1" %>
       <%= f.text_field :new_item_name, placeholder: "商品名で検索または入力",
   data: {
     item_search_target: "input",
-    action: "input->item-search#search",
+    item_status_target: "input",
+    action: "input->item-search#search input->item-status#check",
     },
     class: "px-2 py-1 border border-gray-400 rounded-sm text-md text-gray-600 placeholder:text-[14px] outline-none focus:border-black focus:ring-1 focus:ring-gray-300" %>
       <div data-item-search-target="results" class="absolute top-[65px] w-full px-3 py-3 bg-white hidden border border-gray-500 rounded-sm">
@@ -18,7 +19,9 @@
       <%= f.label :new_brand_name, "ブランド", class: "text-sm text-gray-400 mb-1" %>
       <%= f.text_field :new_brand_name, placeholder: "ブランド", class: "px-2 py-1 border border-gray-400 rounded-sm text-gray-500 placeholder:text-[14px] outline-none focus:border-black focus:ring-1 focus:ring-gray-300",
     data: {
-      item_search_target: "brand"
+      item_search_target: "brand",
+      item_status_target: "brand",
+      action: "input->item-status#check",
     } %>
     </div>
     <div class="col-span-3 flex flex-col">
@@ -28,7 +31,9 @@
     {},
     class: "px-2 py-1 h-[34px] border border-gray-400 rounded-sm text-[14px] text-gray-500 placeholder:text-[14px] outline-none focus:border-black focus:ring-1 focus:ring-gray-300",
   data: {
-    item_search_target: "category"
+    item_search_target: "category",
+    item_status_target: "category",
+    action: "change->item-status#check",
   } %>
     </div>
     <div class="col-span-1 flex items-end justify-center">
