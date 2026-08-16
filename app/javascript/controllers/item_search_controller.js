@@ -58,44 +58,94 @@ export default class extends Controller {
   }
 
   #showMessage(data, query, results) {
-    if (query === "") {
-      return
-    }
-
-    results.classList.remove('hidden');
-
-    const existingItems = data.map((item) => {
-      return `
-        <div data-action="click->item-search#select" data-name="${item.name}" data-brand="${item.brand_name}" data-category="${item.category_name}" class="flex items-center justify-between px-2 py-2 border-b cursor-pointer">
-          <div>
-            <p class="text-[14px] text-gray-500">${item.name}</p>
-            <p class="text-[12px] text-gray-500">${item.brand_name}・${item.category_name}</p>
-          </div>
-          <span data-item-id="${item.id}" data-action="click->item-search#deleteItem" class="text-[20px] text-gray-500 hover:text-red-500 transition-colors duration-150 cursor-pointer">×</span>
-        </div>
-      `;
-    }).join("");
-
-    const emptyMessage = query !== "" && data.length === 0 ? `
-    <div class="text-sm text-gray-500">
-      「${query}」に一致する商品がありませんでした。
-    </div>`
-    : "";
-
-    const createOption = () => {
-      if (query === "") {
-        return "";
-      }
-
-      return `<div data-action="click->item-search#showCreateForm" class="px-3 py-2 cursor-pointer hover:bg-gray-50 flex items-center gap-2 border-t border-gray-100"
-        data-query="${query}">
-        <span class="text-xs text-gray-400">+</span>
-        <p class="text-xs text-gray-600">"<span class="font-medium text-black">${query}</span>"を新規追加</p>
-      </div> `
-    }
-
-   results.innerHTML = emptyMessage + existingItems + createOption()
+  if (query === "") {
+    return
   }
+
+  results.classList.remove("hidden")
+
+  const existingItems = data.map((item) => {
+    return `
+      <div
+        data-action="click->item-search#select"
+        data-name="${item.name}"
+        data-brand="${item.brand_name}"
+        data-category="${item.category_name}"
+        class="group flex items-center justify-between
+               px-3 py-2.5
+               border-b border-gray-100
+               cursor-pointer
+               transition-colors duration-150
+               hover:bg-gray-50"
+      >
+        <div class="min-w-0">
+          <p class="text-[13px] text-gray-800 font-medium truncate">
+            ${item.name}
+          </p>
+
+          <p class="mt-0.5 text-[11px] text-gray-400 truncate">
+            ${item.brand_name}・${item.category_name}
+          </p>
+        </div>
+
+        <span
+          data-item-id="${item.id}"
+          data-action="click->item-search#deleteItem"
+          class="ml-3 flex-shrink-0
+                 text-[18px] leading-none
+                 text-gray-300
+                 transition-colors duration-150
+                 hover:text-black
+                 cursor-pointer"
+        >
+          ×
+        </span>
+      </div>
+    `
+  }).join("")
+
+  const emptyMessage = query !== "" && data.length === 0
+    ? `
+      <div class="px-3 py-4 text-center">
+        <p class="text-xs text-gray-400">
+          「${query}」に一致する商品がありませんでした。
+        </p>
+      </div>
+    `
+    : ""
+
+  const createOption = () => {
+    if (query === "") {
+      return ""
+    }
+
+    return `
+      <div
+        data-action="click->item-search#showCreateForm"
+        data-query="${query}"
+        class="flex items-center gap-2
+               px-3 py-2.5
+               border-t border-gray-100
+               cursor-pointer
+               transition-colors duration-150
+               hover:bg-gray-50"
+      >
+        <span class="text-sm text-gray-400">
+          +
+        </span>
+
+        <p class="text-xs text-gray-500">
+          「<span class="font-medium text-gray-900">${query}</span>」を新規追加
+        </p>
+      </div>
+    `
+  }
+
+  results.innerHTML =
+    emptyMessage +
+    existingItems +
+    createOption()
+}
 
   select(event) {
     const row = event.currentTarget.closest(".item-row")
@@ -118,6 +168,8 @@ export default class extends Controller {
     category.value = event.currentTarget.dataset.category
 
     this.#hideResults(results)
+
+    row.dispatchEvent(new Event("item-status:check"))
   }
 
   showCreateForm(event) {
