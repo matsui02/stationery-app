@@ -19,14 +19,24 @@
       <span data-character-count-target="count" class="block text-right text-sm text-gray-400">0 / 50文字</span>
     </div>
   </div>
-  <div class="flex items-center justify-center mt-6 w-full h-40 border border-dashed border-gray-500 rounded-sm hover:border-black">
-    <div class="flex flex-col items-center gap-2">
+  <div data-controller="image-preview" data-action="click->image-preview#open" class="flex items-center justify-center mt-6 w-full h-40 border border-dashed border-gray-500 rounded-sm hover:border-black cursor-pointer">
+    <div data-image-preview-target="placeholder" class="flex flex-col items-center gap-2">
       <%= image_tag "image_upload.svg", class: "w-6 h-6 text-gray-300" %>
-      <label for="image-upload" class="text-sm text-gray-400">
+
+      <span class="text-sm text-gray-400">
         筆箱の画像を選択
-      </label>
+      </span>
     </div>
-    <%= f.file_field :image, class: "hidden", id: "image-upload" %>
+
+    <%= f.file_field :image,
+      class: "hidden",
+      id: "image-upload",
+      data: {
+        image_preview_target: "input",
+        action: "change->image-preview#preview"
+      } %>
+
+    <img data-image-preview-target="preview" class="hidden max-h-36 max-w-full object-contain" alt="筆箱のプレビュー">
   </div>
 
   <!-- 現在のアイテム -->
