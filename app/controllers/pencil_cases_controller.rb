@@ -64,22 +64,24 @@ class PencilCasesController < ApplicationController
     @pencil_case.pencil_case_items.each do |pencil_case_item|
       next if pencil_case_item.item_id.present?
 
+      next if pencil_case_item.new_item_name.blank? &&
+              pencil_case_item.new_brand_name.blank? &&
+              pencil_case_item.new_category_id.blank?
+
       brand = Brand.find_or_create_by!(
-        name: pencil_case_item.new_brand_name.presence || "その他"
+        name: pencil_case_item.new_brand_name
       )
 
-      category =
-        if pencil_case_item.new_category_id.present?
-          Category.find(pencil_case_item.new_category_id)
-        else
-          Category.find_or_create_by!(name: "その他")
-        end
+      category = Category.find(
+        pencil_case_item.new_category_id
+      )
 
       item = Item.find_or_create_by!(
         name: pencil_case_item.new_item_name,
         brand: brand,
         category: category
       )
+
       pencil_case_item.item = item
     end
   end

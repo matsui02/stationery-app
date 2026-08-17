@@ -13,6 +13,8 @@ export default class extends Controller {
       "item-status:check",
       this.#handleCheck
     )
+
+    this.check();
   }
 
   disconnect() {

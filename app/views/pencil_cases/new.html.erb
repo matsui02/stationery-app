@@ -38,20 +38,41 @@
 
     <img data-image-preview-target="preview" class="hidden max-h-36 max-w-full object-contain" alt="筆箱のプレビュー">
   </div>
+  <% if @pencil_case.errors[:image].any? %>
+  <p class="mt-1 text-sm text-red-500">
+    <%= @pencil_case.errors[:image].first %>
+  </p>
+  <% end %>
 
   <!-- 現在のアイテム -->
   <%= f.fields_for :pencil_case_items do |item_form| %>
-  <%= render "item_fields", f: item_form, categories: @categories %>
+  <div class="item-row" data-controller="item-status">
+    <%= render "item_fields",
+          f: item_form,
+          categories: @categories %>
+    <% if item_form.object.errors[:base].any? %>
+    <p class="mt-1 text-sm text-red-500">
+      <%= item_form.object.errors[:base].first %>
+    </p>
+    <% end %>
+  </div>
   <% end %>
 
   <!-- 追加用のひな形 -->
   <template data-item-search-target="template">
     <%= f.fields_for :pencil_case_items,
-        PencilCaseItem.new,
-        child_index: "NEW_RECORD" do |item_form| %>
-    <%= render "item_fields",
-          f: item_form,
-          categories: @categories %>
+      PencilCaseItem.new,
+      child_index: "NEW_RECORD" do |item_form| %>
+    <div class="item-row" data-controller="item-status">
+      <%= render "item_fields",
+            f: item_form,
+            categories: @categories %>
+      <% if item_form.object.errors[:base].any? %>
+      <p class="mt-1 text-sm text-red-500">
+        <%= item_form.object.errors[:base].first %>
+      </p>
+      <% end %>
+    </div>
     <% end %>
   </template>
 
