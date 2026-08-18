@@ -30,6 +30,8 @@ class PencilCasesController < ApplicationController
       flash[:notice] = "筆箱を投稿しました。"
       redirect_to pencil_cases_path
     else
+      Rails.logger.debug @pencil_case.errors.full_messages
+      Rails.logger.debug @pencil_case.errors.to_hash
       flash.now[:alert] = "投稿に失敗しました。入力内容を確認してください。"
       load_form_data
       render :new, status: :unprocessable_entity

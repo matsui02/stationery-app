@@ -17,6 +17,10 @@ class PencilCaseItem < ApplicationRecord
   end
 
   def must_have_complete_item
+    return if new_item_name.blank? &&
+            new_brand_name.blank? &&
+            new_category_id.blank?
+
     if new_item_name.blank? ||
        new_brand_name.blank? ||
        new_category_id.blank?
