@@ -70,7 +70,7 @@ export default class extends Controller {
         data-action="click->item-search#select"
         data-name="${item.name}"
         data-brand="${item.brand_name}"
-        data-category="${item.category_name}"
+        data-category="${item.category_id}"
         class="group flex items-center justify-between
                px-3 py-2.5
                border-b border-gray-100
