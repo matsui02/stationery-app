@@ -50,11 +50,13 @@
     <%= render "item_fields",
           f: item_form,
           categories: @categories %>
+
     <% if item_form.object.errors[:base].any? %>
     <p class="mt-1 text-sm text-red-500">
       <%= item_form.object.errors[:base].first %>
     </p>
     <% end %>
+
     <% if @pencil_case.errors[:pencil_case_items].any? %>
     <p class="mt-1 text-sm text-red-500">
       <%= @pencil_case.errors[:pencil_case_items].first %>

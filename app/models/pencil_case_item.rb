@@ -18,12 +18,12 @@ class PencilCaseItem < ApplicationRecord
 
   def must_have_complete_item
     return if new_item_name.blank? &&
-            new_brand_name.blank? &&
-            new_category_id.blank?
+              new_brand_name.blank? &&
+              new_category_id.blank?
 
     if new_item_name.blank? ||
-       new_brand_name.blank? ||
-       new_category_id.blank?
+      new_brand_name.blank? ||
+      new_category_id.blank?
 
       errors.add(:base, "商品名・ブランド・カテゴリをすべて入力してください")
     end

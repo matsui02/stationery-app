@@ -259,23 +259,14 @@ export default class extends Controller {
   }
 
   #showFlash(message, type = "success") {
-    this.flashTarget.textContent = message;
+    const toast = document.createElement("div")
 
-    this.flashTarget.classList.remove(
-      "bg-black",
-      "bg-red-600",
-      "hidden"
-    );
+    toast.dataset.controller = "flash"
+    toast.dataset.flashMessageValue = message
+    toast.dataset.flashTypeValue =
+      type === "error" ? "alert" : "notice"
 
-    if (type === "error") {
-      this.flashTarget.classList.add("bg-red-500");
-    } else {
-      this.flashTarget.classList.add("bg-black");
-    }
-
-    setTimeout(() => {
-      this.flashTarget.classList.add("hidden");
-    }, 3000);
+    document.body.appendChild(toast)
   }
 
   async deleteItem(event) {
