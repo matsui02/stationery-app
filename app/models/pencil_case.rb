@@ -31,8 +31,15 @@ class PencilCase < ApplicationRecord
   end
 
   def must_have_item
-    if pencil_case_items.none? { |item| item.item_id.present? }
+    if pencil_case_items.all? { |item| item_empty?(item) }
       errors.add(:pencil_case_items, "収納アイテムを1つ以上追加してください")
     end
+  end
+
+  def item_empty?(item)
+    item.item_id.blank? &&
+    item.new_item_name.blank? &&
+    item.new_brand_name.blank? &&
+    item.new_category_id.blank?
   end
 end
