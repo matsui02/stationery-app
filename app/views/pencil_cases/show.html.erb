@@ -1,0 +1,86 @@
+<%= render "shared/back_link",
+      path:  pencil_cases_path,
+      label: "投稿一覧" %>
+
+<div class="px-[50px] py-8">
+  <div class="max-w-2xl mx-auto">
+
+    <%# 投稿画像 %>
+    <div class="bg-gray-50 rounded-2xl h-96 w-full flex items-center justify-center mb-6 overflow-hidden">
+      <% if @pencil_case.image.attached? %>
+      <%= image_tag @pencil_case.image, class: "w-full h-full object-cover" %>
+      <% else %>
+      <span class="text-xs text-gray-300 tracking-wide">No Image</span>
+      <% end %>
+    </div>
+
+    <% if @pencil_case.present? %>
+    <span class="inline-block text-xs text-gray-400 tracking-wide bg-gray-50
+               px-3 py-1 rounded-full mb-3">
+      筆箱紹介
+    </span>
+    <% end %>
+
+    <%# タイトル %>
+    <h1 class="text-xl font-medium text-black mb-3">
+      <%= @pencil_case.title %>
+    </h1>
+
+    <div class="flex items-center justify-between mb-6">
+      <div class="flex items-center gap-2 text-xs text-gray-400 tracking-wide">
+        <span><%= @pencil_case.user.name %></span>
+        <span class="text-gray-300">·</span>
+        <span><%= @pencil_case.created_at.strftime("%Y.%m.%d") %></span>
+      </div>
+      <div class="flex items-center gap-4">
+        <% if current_user == @pencil_case.user %>
+        <%= link_to edit_pencil_case_path(@pencil_case),
+              class: "text-gray-400 hover:text-gray-600 transition-colors duration-150" do %>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
+          <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z" />
+        </svg>
+        <% end %>
+        <% end %>
+      </div>
+    </div>
+
+    <%# 本文 %>
+    <p class="text-sm text-gray-600 leading-7 mb-10 whitespace-pre-line break-words">
+      <%= @pencil_case.concept %>
+    </p>
+
+    <%# 使用アイテム %>
+    <div data-controller="category-scroll" data-category-scroll-resume-after-value="4000" data-category-scroll-pixels-per-second-value="40">
+
+      <p class="text-xs text-gray-400 tracking-wide mb-2.5">使用アイテム</p>
+
+      <%# 自動で流れるカテゴリタブ %>
+      <div class="overflow-hidden mb-4" data-action="pointerdown->category-scroll#pause">
+        <div class="flex gap-2 w-max" data-category-scroll-target="track">
+          <% [["all", "すべて"], *Category.order(:name).pluck(:name).map { |n| [n, n] }].each do |value, label| %>
+          <% (0..1).each do %>
+          <button type="button" data-category-scroll-target="tab" data-category="<%= value %>" data-action="click->category-scroll#select" class="flex-shrink-0 rounded-full px-4 py-1.5 text-xs whitespace-nowrap
+                             transition-colors duration-150
+                             <%= value == "all" ? "bg-black text-white" : "bg-gray-100 text-gray-600" %>">
+            <%= label %>
+          </button>
+          <% end %>
+          <% end %>
+        </div>
+      </div>
+
+      <%# アイテム一覧 %>
+      <div data-category-scroll-target="list">
+        <% @pencil_case.pencil_case_items.includes(item: :category).each do |pencil_case_item| %>
+        <%= render "item_row", pencil_case_item: pencil_case_item %>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="mt-10 text-center">
+      <%= link_to "一覧に戻る", pencil_cases_path,
+            class: "text-xs text-gray-400 hover:text-gray-600 transition-colors duration-150" %>
+    </div>
+
+  </div>
+</div>

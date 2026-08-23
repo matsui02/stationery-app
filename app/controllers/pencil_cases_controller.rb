@@ -13,6 +13,7 @@ class PencilCasesController < ApplicationController
   end
 
   def show
+    @pencil_case = PencilCase.find(params[:id])
   end
 
   def new
