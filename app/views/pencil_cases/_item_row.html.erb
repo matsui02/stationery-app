@@ -1,0 +1,18 @@
+<% item = pencil_case_item.item %>
+
+<div class="flex items-center gap-3 py-2.5 border-b border-gray-100 last:border-b-0" data-category-scroll-target="item" data-category="<%= item.category.name %>">
+
+  <div class="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center flex-shrink-0 text-black">
+    <%= render "category_icon", category_name: item.category.name, css_class: "w-5 h-5" %>
+  </div>
+
+  <div class="flex-1 min-w-0">
+    <p class="text-xs text-gray-400 tracking-wide"><%= item.category.name %></p>
+    <p class="text-sm text-black mt-0.5 truncate">
+      <%= item.name %>
+      <% if item.brand.name.present? %>
+      <span class="text-gray-400">/ <%= item.brand.name %></span>
+      <% end %>
+    </p>
+  </div>
+</div>

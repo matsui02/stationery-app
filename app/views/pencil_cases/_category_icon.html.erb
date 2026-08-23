@@ -1,0 +1,85 @@
+<% css_class ||= "w-4 h-4" %>
+
+<% if category_name == "ペン" %>
+
+<!-- ペン -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="<%= css_class %>">
+  <path d="M5 18.5L15.8 5.7a2 2 0 0 1 2.9-.1l.7.7a2 2 0 0 1-.1 2.9L6.5 20H4z" />
+  <path d="M17 6.5l2.5 2.5" />
+  <path d="M17.8 5.2L19 4" />
+  <path d="M7.3 16.5l2.2 2.2" />
+  <path d="M4 20l1.5-1.5" />
+</svg>
+
+<% elsif category_name == "シャープペン" %>
+
+<!-- シャープペン -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="<%= css_class %>">
+  <path d="M6 17.5L16.2 7.3l2.5 2.5L8.5 20H5z" />
+  <path d="M5 20l-1.5 1.5" />
+  <path d="M16.2 7.3l1.2-1.2" />
+  <path d="M17.4 6.1l1.2-1.2a1.7 1.7 0 0 1 2.4 2.4l-1.2 1.2" />
+  <path d="M18 4v1.2" />
+  <path d="M17.4 4.6h1.2" />
+</svg>
+
+<% elsif category_name == "消しゴム" %>
+
+<!-- 消しゴム -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="<%= css_class %>">
+  <rect x="4" y="7" width="16" height="10" rx="2" />
+  <path d="M9 7v10" />
+  <path d="M11.5 10h5" />
+  <path d="M11.5 13h3.5" />
+</svg>
+
+<% elsif category_name == "ノート" %>
+
+<!-- ノート -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="<%= css_class %>">
+  <rect x="6" y="3" width="13" height="18" rx="1.5" />
+  <path d="M9 3v18" />
+  <circle cx="9" cy="7" r="0.7" fill="currentColor" />
+  <circle cx="9" cy="12" r="0.7" fill="currentColor" />
+  <circle cx="9" cy="17" r="0.7" fill="currentColor" />
+  <path d="M12 8h4" />
+  <path d="M12 12h4" />
+  <path d="M12 16h4" />
+</svg>
+
+<% elsif category_name == "定規" %>
+
+<!-- 定規 -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="<%= css_class %>">
+  <!-- 定規本体 -->
+  <rect x="4" y="6" width="16" height="12" rx="1" />
+
+  <!-- 目盛り -->
+  <path d="M7 6v3" />
+  <path d="M10 6v2" />
+  <path d="M13 6v3" />
+  <path d="M16 6v2" />
+  <path d="M19 6v3" />
+
+  <!-- 下側の目盛り -->
+  <path d="M7 18v-3" />
+  <path d="M10 18v-2" />
+  <path d="M13 18v-3" />
+  <path d="M16 18v-2" />
+  <path d="M19 18v-3" />
+</svg>
+
+<% else %>
+
+<!-- その他 -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="<%= css_class %>">
+  <path d="M5 10h14v9a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2z" />
+  <path d="M8 10V5" />
+  <path d="M12 10V3" />
+  <path d="M16 10V5" />
+  <path d="M8 5L7 4" />
+  <path d="M12 3l-1-1" />
+  <path d="M16 5l1-1" />
+</svg>
+
+<% end %>
