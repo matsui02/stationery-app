@@ -1,14 +1,19 @@
 <% css_class ||= "w-4 h-4" %>
 
-<% if category_name == "ペン" %>
+<% if category_name == "ボールペン" %>
 
-<!-- ペン -->
+<!-- ボールペン -->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="<%= css_class %>">
-  <path d="M5 18.5L15.8 5.7a2 2 0 0 1 2.9-.1l.7.7a2 2 0 0 1-.1 2.9L6.5 20H4z" />
-  <path d="M17 6.5l2.5 2.5" />
-  <path d="M17.8 5.2L19 4" />
-  <path d="M7.3 16.5l2.2 2.2" />
-  <path d="M4 20l1.5-1.5" />
+  <!-- ペン先 -->
+  <path d="M4 20l1.8-4.5L16.5 4.8l2.7 2.7L8.3 18.2z" />
+  <!-- ペン先の境界 -->
+  <path d="M5.8 15.5l2.7 2.7" />
+  <!-- ノック部分 -->
+  <path d="M16.5 4.8l1.1-1.1" />
+  <path d="M17.6 3.7h2.2v2.2" />
+  <!-- クリップ -->
+  <path d="M18.2 6.5l1.4 1.4" />
+  <path d="M19.6 7.9l1.2-1.2" />
 </svg>
 
 <% elsif category_name == "シャープペン" %>
